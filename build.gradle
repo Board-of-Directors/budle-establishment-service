@@ -9,7 +9,7 @@ group = 'ru.nsu.fit.directors'
 version = '0.0.1-SNAPSHOT'
 
 springBoot {
-    mainClass = "ru.nsu.fit.directors.orderservice.GatewayApplication"
+    mainClass = "ru.nsu.fit.directors.establishmentservice.EstablishmentServiceApplication"
 }
 
 java {
