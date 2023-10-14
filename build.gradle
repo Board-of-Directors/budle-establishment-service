@@ -8,10 +8,9 @@ plugins {
 group = 'ru.nsu.fit.directors'
 version = '0.0.1-SNAPSHOT'
 
-flyway.url='jdbc:postgresql://localhost:8000/postgres?user=postgres&password=xzq75757'
-flyway.user='postgres'
-flyway.password='xzq75757'
-flyway.cleanDisabled=false
+springBoot {
+    mainClass = "ru.nsu.fit.directors.orderservice.GatewayApplication"
+}
 
 java {
     sourceCompatibility = '17'
