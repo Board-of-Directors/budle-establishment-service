@@ -32,9 +32,10 @@ public interface EstablishmentService {
      * Function that creates establishment by provided parameters.
      *
      * @param ownerId index of the creator from business service.
-     * @param dto dto with fields of new establishment model.
+     * @param dto     dto with fields of new establishment model.
+     * @return created establishment identifier
      */
-    void createEstablishment(Long ownerId, RequestEstablishmentDto dto);
+    Long createEstablishment(Long ownerId, RequestEstablishmentDto dto);
 
     /**
      * Function, that returns all categories from out system.

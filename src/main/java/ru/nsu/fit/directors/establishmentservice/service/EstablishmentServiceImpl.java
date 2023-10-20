@@ -101,13 +101,13 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Override
     @Transactional
-    public void createEstablishment(Long ownerId, RequestEstablishmentDto dto) {
+    public Long createEstablishment(Long ownerId, RequestEstablishmentDto dto) {
         log.info("Creating new establishment");
         checkEstablishmentExistence(dto);
         Establishment establishment = establishmentMapper.dtoToModel(dto);
         establishment.setOwnerId(ownerId);
         log.info("Establishment was converted");
-        saveEstablishmentData(establishment, dto);
+        return saveEstablishmentData(establishment, dto);
     }
 
     @Override
@@ -251,7 +251,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         }
     }
 
-    private void saveEstablishmentData(Establishment establishment, RequestEstablishmentDto dto) {
+    private Long saveEstablishmentData(Establishment establishment, RequestEstablishmentDto dto) {
         Set<Tag> tags = tagMapper.tagDtoSetToModelSet(dto.getTags());
         log.info("Tags were converted");
         establishment.setTags(tags);
@@ -267,5 +267,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         if (dto.getMap() != null) {
             addMap(establishment.getId(), dto.getMap());
         }
+        return savedEstablishment.getId();
     }
 }

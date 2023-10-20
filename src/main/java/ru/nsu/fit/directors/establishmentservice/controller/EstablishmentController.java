@@ -68,11 +68,11 @@ public class EstablishmentController {
      *                                such as names, description, etc.
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createEstablishment(
+    public Long createEstablishment(
         @RequestParam Long ownerId,
         @Valid @RequestBody RequestEstablishmentDto requestEstablishmentDto
     ) {
-        establishmentService.createEstablishment(ownerId, requestEstablishmentDto);
+        return establishmentService.createEstablishment(ownerId, requestEstablishmentDto);
     }
 
     /**
