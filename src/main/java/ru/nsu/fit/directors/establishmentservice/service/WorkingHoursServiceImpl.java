@@ -114,7 +114,7 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
             .mapToEntry(LocalDate::getDayOfWeek)
             .mapValues(java.time.DayOfWeek::getValue)
             .mapValues(dayNumber -> getWorkingHoursByDay(dayNumber, workingHours))
-            .filter(Objects::nonNull)
+            .filterValues(Objects::nonNull)
             .map(this::generateTimesForCurrentDay)
             .flatMap(Collection::stream)
             .toList();
