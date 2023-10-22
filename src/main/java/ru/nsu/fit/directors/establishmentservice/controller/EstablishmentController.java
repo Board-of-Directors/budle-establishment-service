@@ -76,7 +76,6 @@ public class EstablishmentController {
     }
 
     /**
-     * BUSINESS
      * Get request, that returned all existing categories in our application.
      *
      * @return list of existed categories.
@@ -119,7 +118,6 @@ public class EstablishmentController {
     }
 
     /**
-     * BUSINESS
      * Get request, that get all existing in our system spot-tags.
      * WARNING: spot-tags weak-connected with establishment-tags.
      *
@@ -132,7 +130,6 @@ public class EstablishmentController {
     }
 
     /**
-     * BUSINESS
      * Get request, that get all existing variants for current category
      *
      * @param category current category
@@ -145,7 +142,6 @@ public class EstablishmentController {
     }
 
     /**
-     * BUSINESS
      * Put request, that process map of establishment and put it to database.
      *
      * @param establishmentId - in what establishment we add map.
@@ -172,7 +168,6 @@ public class EstablishmentController {
     }
 
     /**
-     * BUSINESS
      * Delete establishment from database.
      *
      * @param establishmentId index of deleted establishment.
