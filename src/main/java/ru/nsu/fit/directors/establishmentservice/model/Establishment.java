@@ -16,7 +16,6 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -54,9 +53,6 @@ public class Establishment {
     private String image;
     private String map;
 
-    @OneToOne
-    private Menu menu;
-
     @OneToMany(fetch = FetchType.EAGER,
         mappedBy = "establishment",
         cascade = CascadeType.ALL)
@@ -64,7 +60,6 @@ public class Establishment {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "establishment", cascade = CascadeType.ALL)
     private Set<Photo> photos;
-
 
     @ElementCollection(targetClass = Tag.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

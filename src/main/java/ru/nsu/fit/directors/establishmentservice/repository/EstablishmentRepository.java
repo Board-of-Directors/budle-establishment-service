@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.nsu.fit.directors.establishmentservice.enums.DayOfWeek;
+import ru.nsu.fit.directors.establishmentservice.model.Category;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import ru.nsu.fit.directors.establishmentservice.model.WorkingHours;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -40,6 +42,8 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, Lo
     WorkingHours findWorkingHoursByDay(@Param("day") DayOfWeek day);
 
     List<Establishment> findAllByOwnerId(Long ownerId);
+
+    Optional<Establishment> findByCategoryAndId(Category category, Long id);
 
 
 }

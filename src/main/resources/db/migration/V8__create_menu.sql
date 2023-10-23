@@ -1,28 +1,19 @@
-create table menu(
-    id bigserial,
-    primary key (id)
+create table menu_category
+(
+    id                 bigserial primary key,
+    name               varchar,
+    establishment_id   bigint references establishments (id),
+    parent_category_id bigint references menu_category (id)
 );
 
-alter table establishments
-add menu_id bigint;
 
-create table menu_category(
-    id bigserial primary key,
-    name varchar,
-    parent_category_id bigint
-);
-
-create table menu_menu_category(
-    menu_id bigint,
-    menu_category_id bigint
-);
-
-create table menu_product(
-    id bigserial,
-    name varchar,
+create table product
+(
+    id          bigserial primary key,
+    name        varchar,
     description varchar,
-    weightg varchar,
-    price varchar,
-    photo_id bigint,
-    category_id bigint references menu_category(id)
+    price       varchar,
+    weight_g    varchar,
+    is_on_sale  bool,
+    category_id bigint references menu_category (id)
 )
