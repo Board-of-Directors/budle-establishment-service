@@ -35,7 +35,12 @@ import ru.nsu.fit.directors.establishmentservice.exception.SpotNotFoundException
 
 import java.util.LinkedHashMap;
 
-@RestControllerAdvice(basePackages = "ru.nsu.fit.directors.establishmentservice.controller")
+@RestControllerAdvice(
+    basePackages = {
+        "ru.nsu.fit.directors.establishmentservice.controller",
+        "ru.nsu.fit.directors.establishmentservice.internal"
+    }
+)
 public class ArticleController extends ResponseEntityExceptionHandler implements ResponseBodyAdvice<Object> {
     private static final String NOT_VALID_EXCEPTION = "notValidException";
 
