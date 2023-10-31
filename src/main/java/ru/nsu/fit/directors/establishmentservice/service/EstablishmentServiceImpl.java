@@ -1,13 +1,14 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
+import jakarta.annotation.Nonnull;
 import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -20,6 +21,7 @@ import ru.nsu.fit.directors.establishmentservice.dto.ValidTimeDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestEstablishmentDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestGetEstablishmentParameters;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestWorkingHoursDto;
+import ru.nsu.fit.directors.establishmentservice.dto.response.BasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseShortEstablishmentInfo;
@@ -46,6 +48,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.StringReader;
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -68,35 +71,50 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     public EstablishmentListDto getEstablishmentByParams(
         RequestGetEstablishmentParameters parameters
     ) {
-        log.info("Getting establishment by parameters");
-        log.info("Parameters" + parameters);
+        log.info("Getting establishment by parameters {}", parameters);
+        List<ResponseBasicEstablishmentInfo> results = establishmentRepository.findBy(
+                toExample(parameters),
+                query -> query.project(toProjection(BasicEstablishmentInfo.class))
+                    .page(toPageable(parameters))
+            )
+            .stream()
+            .map(establishmentMapper::toBasic)
+            .toList();
+        return new EstablishmentListDto(results, results.size());
+    }
 
-        PageRequest page = PageRequest.of(parameters.offset(), parameters.limit(),
+    @Nonnull
+    private Pageable toPageable(RequestGetEstablishmentParameters parameters) {
+        return PageRequest.of(
+            parameters.offset(),
+            parameters.limit(),
             Sort.by(parameters.sortValue())
         );
+    }
 
+    @Nonnull
+    private List<String> toProjection(Class<BasicEstablishmentInfo> type) {
+        return Arrays.stream(BasicEstablishmentInfo.class.getDeclaredFields())
+            .map(Field::getName)
+            .toList();
+    }
+
+    @Nonnull
+    private Example<Establishment> toExample(RequestGetEstablishmentParameters parameters) {
         ExampleMatcher matcher = ExampleMatcher.matching()
             .withIgnoreNullValues()
             .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-
         Category categoryEnum = parameters.category() == null ? null : Category.getEnumByValue(parameters.category());
 
-        Example<Establishment> exampleQuery =
-            Example.of(new Establishment(
+        return Example.of(
+            new Establishment(
                 categoryEnum,
                 parameters.hasMap(),
                 parameters.hasCardPayment(),
                 parameters.name()
-            ), matcher);
-
-        Page<Establishment> results = establishmentRepository.findAll(exampleQuery, page);
-        log.info("Results was " + results);
-        List<Establishment> processing = results.getContent()
-            .stream()
-            .filter(est -> est.getWorkingHours().size() <= parameters.workingDayCount())
-            .toList();
-        List<ResponseBasicEstablishmentInfo> establishments = establishmentMapper.modelListToDtoList(processing);
-        return new EstablishmentListDto(establishments, establishments.size());
+            ),
+            matcher
+        );
     }
 
     @Override

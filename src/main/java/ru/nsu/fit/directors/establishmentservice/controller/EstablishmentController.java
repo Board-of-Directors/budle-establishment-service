@@ -60,7 +60,6 @@ public class EstablishmentController {
     }
 
     /**
-     * BUSINESS
      * Post request, that creating new establishment with provided fields.
      *
      * @param requestEstablishmentDto - representation of created establishment.
@@ -86,7 +85,6 @@ public class EstablishmentController {
     }
 
     /**
-     * BUSINESS
      * Get request for tags, that returns all of existing tags in our system.
      *
      * @return list of tags dto.

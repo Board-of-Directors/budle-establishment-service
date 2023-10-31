@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import ru.nsu.fit.directors.establishmentservice.enums.CuisineCountry;
 import ru.nsu.fit.directors.establishmentservice.enums.Tag;
 
 import java.util.Set;
@@ -52,6 +53,10 @@ public class Establishment {
     private Long ownerId;
     private String image;
     private String map;
+    private Integer starsCount;
+    @Enumerated(EnumType.STRING)
+    private CuisineCountry cuisineCountry;
+
 
     @OneToMany(fetch = FetchType.EAGER,
         mappedBy = "establishment",
