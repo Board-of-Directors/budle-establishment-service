@@ -14,7 +14,7 @@ import ru.nsu.fit.directors.establishmentservice.service.MenuService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/internal/menu")
-public class MenuController {
+public class InternalMenuController {
     private final MenuService menuService;
 
     @PostMapping
