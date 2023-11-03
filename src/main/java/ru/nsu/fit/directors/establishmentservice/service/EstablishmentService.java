@@ -100,4 +100,6 @@ public interface EstablishmentService {
     String getTagByName(String tagName);
 
     List<LocalDateTime> getAlternativeValidTime(Long establishmentId);
+
+    void recountRating(Integer score, Establishment establishment);
 }

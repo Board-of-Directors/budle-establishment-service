@@ -56,8 +56,6 @@ public class Establishment {
     private Integer starsCount;
     @Enumerated(EnumType.STRING)
     private CuisineCountry cuisineCountry;
-
-
     @OneToMany(fetch = FetchType.EAGER,
         mappedBy = "establishment",
         cascade = CascadeType.ALL)
@@ -71,6 +69,8 @@ public class Establishment {
     @CollectionTable(name = "establishment_tags", joinColumns = @JoinColumn(name = "establishment_id"))
     @Column(name = "tag_name")
     private Set<Tag> tags;
+    @OneToMany(mappedBy = "establishment")
+    private Set<Review> reviews;
 
     public Establishment(Category category, Boolean hasMap, Boolean hasCardPayment, String name) {
         this.category = category;

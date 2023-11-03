@@ -152,6 +152,19 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
+    public void recountRating(Integer score, Establishment establishment) {
+        if (establishment.getRating() == null) {
+            establishment.setRating(score.floatValue());
+        } else {
+            int currentReviewsCount = establishment.getReviews().size();
+            establishment.setRating(
+                (establishment.getRating() * currentReviewsCount + score) / (currentReviewsCount + 1)
+            );
+            establishmentRepository.save(establishment);
+        }
+    }
+
+    @Override
     public List<ResponseTagDto> getSpotTags(Long establishmentId) {
         Establishment establishment = getEstablishmentById(establishmentId);
         return tagMapper.modelSetToSpotTagDtoList(establishment.getTags());
