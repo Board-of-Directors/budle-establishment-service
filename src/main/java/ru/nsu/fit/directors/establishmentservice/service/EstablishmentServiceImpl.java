@@ -93,6 +93,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Nonnull
+    @SuppressWarnings("unused")
     private List<String> toProjection(Class<BasicEstablishmentInfo> type) {
         return Arrays.stream(BasicEstablishmentInfo.class.getDeclaredFields())
             .map(Field::getName)
@@ -162,6 +163,15 @@ public class EstablishmentServiceImpl implements EstablishmentService {
             );
             establishmentRepository.save(establishment);
         }
+    }
+
+    @Override
+    public List<ResponseBasicEstablishmentInfo> getEstablishmentsByIds(List<Long> ids) {
+        return establishmentRepository.findAllByIdIn(ids).stream()
+            .map(establishmentMapper::toBasic)
+            .toList();
+
+
     }
 
     @Override

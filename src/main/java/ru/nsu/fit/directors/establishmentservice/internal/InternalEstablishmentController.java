@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestEstablishmentDto;
+import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseShortEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.service.EstablishmentService;
 
@@ -25,6 +26,12 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class InternalEstablishmentController {
     private final EstablishmentService establishmentService;
+
+
+    @GetMapping
+    public List<ResponseBasicEstablishmentInfo> getEstablishmentById(@RequestParam List<Long> ids) {
+        return establishmentService.getEstablishmentsByIds(ids);
+    }
 
     /**
      * Post request, that creating new establishment with provided fields.

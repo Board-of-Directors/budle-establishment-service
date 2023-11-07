@@ -4,6 +4,7 @@ import ru.nsu.fit.directors.establishmentservice.dto.EstablishmentListDto;
 import ru.nsu.fit.directors.establishmentservice.dto.ValidTimeDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestEstablishmentDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestGetEstablishmentParameters;
+import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseShortEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseSubcategoryDto;
@@ -102,4 +103,6 @@ public interface EstablishmentService {
     List<LocalDateTime> getAlternativeValidTime(Long establishmentId);
 
     void recountRating(Integer score, Establishment establishment);
+
+    List<ResponseBasicEstablishmentInfo> getEstablishmentsByIds(List<Long> ids);
 }

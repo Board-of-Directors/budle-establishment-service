@@ -45,5 +45,7 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, Lo
 
     Optional<Establishment> findByCategoryAndId(Category category, Long id);
 
+    List<Establishment> findAllByIdIn(List<Long> ids);
+
 
 }
