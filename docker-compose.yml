@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  establishment-service:
+    container_name: establishment-service
+    image: fagorym/establishment-service:main
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://10.129.0.26:5432/establishment_service
+      - SPRING_DISCOVERY_DEFAULT_ZONE=http://10.129.0.34:8181/eureka
+      - SPRING_ZIPKIN_ENDPOINT=http://10.129.0.34/api/v2/spans
+      - HOST=158.160.85.59
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
