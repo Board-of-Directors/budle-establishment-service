@@ -1,10 +1,11 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
@@ -52,6 +53,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -208,7 +210,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         }
     }
 
-    @NonNull
+    @Nonnull
     private List<Spot> getSpotList(NodeList elems) {
         return IntStream.range(0, elems.getLength())
             .peek(idx -> ((Element) elems.item(idx)).setAttribute("id", String.valueOf(idx)))
@@ -221,15 +223,18 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    @NonNull
-    public List<ResponseShortEstablishmentInfo> getEstablishmentsByOwner(Long ownerId) {
+    @Nonnull
+    public List<ResponseShortEstablishmentInfo> getEstablishmentsByOwner(Long ownerId, @Nullable String name) {
         return establishmentMapper.toShortInfoList(
-            establishmentRepository.findAllByOwnerId(ownerId)
+            establishmentRepository.findAllByOwnerIdAndNameContainsIgnoreCase(
+                ownerId,
+                Optional.ofNullable(name).orElse(StringUtils.EMPTY)
+            )
         );
     }
 
     @Override
-    @NonNull
+    @Nonnull
     public ResponseSubcategoryDto getCategoryVariants(String category) {
         Category categoryEnum = Category.getEnumByValue(category);
         return categoryEnum.variants;

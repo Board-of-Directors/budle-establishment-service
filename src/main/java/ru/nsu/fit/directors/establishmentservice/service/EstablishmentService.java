@@ -90,7 +90,7 @@ public interface EstablishmentService {
 
     ResponseExtendedEstablishmentInfo getEstablishmentInfoById(Long establishmentId);
 
-    List<ResponseShortEstablishmentInfo> getEstablishmentsByOwner(Long id);
+    List<ResponseShortEstablishmentInfo> getEstablishmentsByOwner(Long id, String name);
 
     ResponseSubcategoryDto getCategoryVariants(String category);
 

@@ -94,8 +94,11 @@ public class InternalEstablishmentController {
      */
 
     @GetMapping(value = "/owner")
-    public List<ResponseShortEstablishmentInfo> getEstablishmentsByOwner(@RequestParam Long ownerId) {
-        return establishmentService.getEstablishmentsByOwner(ownerId);
+    public List<ResponseShortEstablishmentInfo> getEstablishmentsByOwner(
+        @RequestParam Long ownerId,
+        @RequestParam(required = false) String name
+    ) {
+        return establishmentService.getEstablishmentsByOwner(ownerId, name);
     }
 
 }

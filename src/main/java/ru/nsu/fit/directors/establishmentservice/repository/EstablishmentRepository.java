@@ -41,7 +41,7 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, Lo
         "on e.id = wh.establishment.id where wh.dayOfWeek = :day order by wh.startTime")
     WorkingHours findWorkingHoursByDay(@Param("day") DayOfWeek day);
 
-    List<Establishment> findAllByOwnerId(Long ownerId);
+    List<Establishment> findAllByOwnerIdAndNameContainsIgnoreCase(Long ownerId, String name);
 
     Optional<Establishment> findByCategoryAndId(Category category, Long id);
 
