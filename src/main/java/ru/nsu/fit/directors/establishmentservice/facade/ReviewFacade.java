@@ -22,4 +22,13 @@ public interface ReviewFacade {
      */
     @Nonnull
     List<ResponseReviewDto> findReviews(Long establishmentId);
+
+    /**
+     * Найти отзывы.
+     *
+     * @param ids идентификаторы отзывов
+     * @return список отзывов
+     */
+    @Nonnull
+    List<ResponseReviewDto> findReviews(List<Long> ids);
 }

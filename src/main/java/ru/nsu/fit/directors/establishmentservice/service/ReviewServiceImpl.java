@@ -24,4 +24,10 @@ public class ReviewServiceImpl implements ReviewService {
     public List<Review> findReviewsByEstablishment(Establishment establishment) {
         return reviewRepository.findAllByEstablishment(establishment);
     }
+
+    @Nonnull
+    @Override
+    public List<Review> findByIds(List<Long> ids) {
+        return reviewRepository.findAllById(ids);
+    }
 }

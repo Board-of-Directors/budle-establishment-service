@@ -22,4 +22,13 @@ public interface ReviewService {
      */
     @Nonnull
     List<Review> findReviewsByEstablishment(Establishment establishment);
+
+    /**
+     * Получить список отзывов по идентификаторам.
+     *
+     * @param ids идентификаторы отзывов
+     * @return список отзывов
+     */
+    @Nonnull
+    List<Review> findByIds(List<Long> ids);
 }

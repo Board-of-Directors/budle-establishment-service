@@ -36,4 +36,11 @@ public class ReviewFacadeImpl implements ReviewFacade {
             .map(reviewMapper::toDto)
             .toList();
     }
+
+    @Override
+    public List<ResponseReviewDto> findReviews(List<Long> ids) {
+        return reviewService.findByIds(ids).stream()
+            .map(reviewMapper::toDto)
+            .toList();
+    }
 }

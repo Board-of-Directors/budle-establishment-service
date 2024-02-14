@@ -26,7 +26,7 @@ public class InternalReviewController {
     }
 
     @GetMapping
-    public List<ResponseReviewDto> get(@RequestParam Long establishmentId) {
-        return reviewFacade.findReviews(establishmentId);
+    public List<ResponseReviewDto> get(@RequestParam List<Long> ids) {
+        return reviewFacade.findReviews(ids);
     }
 }
