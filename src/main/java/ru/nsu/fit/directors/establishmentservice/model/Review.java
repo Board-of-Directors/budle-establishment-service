@@ -27,6 +27,6 @@ public class Review {
     private Establishment establishment;
     private Integer score;
     private String text;
-    private Long userId;
+    private String username;
     private Date date;
 }
