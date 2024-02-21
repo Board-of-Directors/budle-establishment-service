@@ -12,7 +12,7 @@ import ru.nsu.fit.directors.establishmentservice.facade.ReviewFacade;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/review")
+@RequestMapping(value = "establishment/review")
 public class ReviewController {
     private final ReviewFacade reviewFacade;
 
