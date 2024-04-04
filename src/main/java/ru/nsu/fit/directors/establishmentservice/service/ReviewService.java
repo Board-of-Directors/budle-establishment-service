@@ -12,7 +12,7 @@ public interface ReviewService {
      *
      * @param review информация об отзыве
      */
-    void save(Review review);
+    Review save(Review review);
 
     /**
      * Получить список отзывов, относящихся к данному заведению.

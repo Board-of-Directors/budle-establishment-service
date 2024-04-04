@@ -10,6 +10,7 @@ import ru.nsu.fit.directors.establishmentservice.dto.request.RequestReviewDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseReviewDto;
 import ru.nsu.fit.directors.establishmentservice.mapper.ReviewMapper;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
+import ru.nsu.fit.directors.establishmentservice.model.Review;
 import ru.nsu.fit.directors.establishmentservice.service.EstablishmentService;
 import ru.nsu.fit.directors.establishmentservice.service.ReviewService;
 
@@ -22,10 +23,10 @@ public class ReviewFacadeImpl implements ReviewFacade {
 
     @Transactional
     @Override
-    public void createReview(RequestReviewDto reviewDto) {
+    public Review createReview(RequestReviewDto reviewDto) {
         Establishment establishment = establishmentService.getEstablishmentById(reviewDto.establishmentId());
         establishmentService.recountRating(reviewDto.score(), establishment);
-        reviewService.save(reviewMapper.toModel(reviewDto, establishment));
+        return reviewService.save(reviewMapper.toModel(reviewDto, establishment));
     }
 
     @Nonnull

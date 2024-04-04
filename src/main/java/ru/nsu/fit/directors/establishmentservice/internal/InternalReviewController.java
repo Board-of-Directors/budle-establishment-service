@@ -21,8 +21,8 @@ public class InternalReviewController {
     private final ReviewFacade reviewFacade;
 
     @PostMapping
-    public void create(@RequestBody @Valid RequestReviewDto reviewDto) {
-        reviewFacade.createReview(reviewDto);
+    public Long create(@RequestBody @Valid RequestReviewDto reviewDto) {
+        return reviewFacade.createReview(reviewDto).getId();
     }
 
     @GetMapping

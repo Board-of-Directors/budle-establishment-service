@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.annotation.Nonnull;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestReviewDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseReviewDto;
+import ru.nsu.fit.directors.establishmentservice.model.Review;
 
 public interface ReviewFacade {
     /**
@@ -12,7 +13,7 @@ public interface ReviewFacade {
      *
      * @param requestReviewDto информация об отзыве
      */
-    void createReview(RequestReviewDto requestReviewDto);
+    Review createReview(RequestReviewDto requestReviewDto);
 
     /**
      * Найти отзывы.
