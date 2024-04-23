@@ -22,16 +22,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.nsu.fit.directors.establishmentservice.dto.response.BaseResponse;
 import ru.nsu.fit.directors.establishmentservice.exception.BaseException;
-import ru.nsu.fit.directors.establishmentservice.exception.ErrorWhileParsingEstablishmentMapException;
-import ru.nsu.fit.directors.establishmentservice.exception.EstablishmentAlreadyExistsException;
-import ru.nsu.fit.directors.establishmentservice.exception.EstablishmentNotFoundException;
-import ru.nsu.fit.directors.establishmentservice.exception.ImageSavingException;
-import ru.nsu.fit.directors.establishmentservice.exception.IncorrectCategoryException;
-import ru.nsu.fit.directors.establishmentservice.exception.IncorrectCuisineCountryException;
-import ru.nsu.fit.directors.establishmentservice.exception.IncorrectDayOfWeekException;
-import ru.nsu.fit.directors.establishmentservice.exception.IncorrectEstablishmentType;
-import ru.nsu.fit.directors.establishmentservice.exception.IncorrectTagException;
-import ru.nsu.fit.directors.establishmentservice.exception.SpotNotFoundException;
 
 import java.util.LinkedHashMap;
 
@@ -44,20 +34,9 @@ import java.util.LinkedHashMap;
 public class ArticleController extends ResponseEntityExceptionHandler implements ResponseBodyAdvice<Object> {
     private static final String NOT_VALID_EXCEPTION = "notValidException";
 
-    @ExceptionHandler({
-        ErrorWhileParsingEstablishmentMapException.class,
-        EstablishmentAlreadyExistsException.class,
-        EstablishmentNotFoundException.class,
-        ImageSavingException.class,
-        IncorrectCategoryException.class,
-        IncorrectCuisineCountryException.class,
-        IncorrectDayOfWeekException.class,
-        IncorrectEstablishmentType.class,
-        IncorrectTagException.class,
-        SpotNotFoundException.class
-    })
-    public <T extends BaseException> ResponseEntity<BaseResponse<Object>> handleException(T e) {
-        BaseResponse<Object> response = new BaseResponse<>(e.getMessage(), e.getType());
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<BaseResponse<Object>> handleException(BaseException exception) {
+        BaseResponse<Object> response = new BaseResponse<>(exception.getMessage(), exception.getType());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -117,7 +96,6 @@ public class ArticleController extends ResponseEntityExceptionHandler implements
         BaseResponse<Object> response = new BaseResponse<>(message, NOT_VALID_EXCEPTION);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
     @NonNull
     private String getDefaultMessage(BindException ex) {
