@@ -22,7 +22,7 @@ public class ImageServiceImpl implements ImageService {
 
     public void saveImages(Set<PhotoDto> photosDto, Establishment establishment) {
         log.info("Saving image");
-        Set<Photo> photos = photoMapper.convertSetPhotoDtoToModelSet(photosDto, establishment);
+        Set<Photo> photos = photoMapper.toModelSet(photosDto, establishment);
         imageRepository.saveAll(photos);
         log.info("Images saved successfully");
     }

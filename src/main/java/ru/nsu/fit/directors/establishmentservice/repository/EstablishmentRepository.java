@@ -12,33 +12,15 @@ import ru.nsu.fit.directors.establishmentservice.model.WorkingHours;
 import java.util.List;
 import java.util.Optional;
 
-
-/**
- * Repository, that connects establishment models with database.
- */
 @Repository
 public interface EstablishmentRepository extends JpaRepository<Establishment, Long> {
 
-    /**
-     * Get establishment by provided id.
-     *
-     * @param id of establishment that we are searching for.
-     * @return found establishment.
-     */
-
     Establishment getEstablishmentById(Long id);
 
-    /**
-     * Checking existence of establishment by name and address.
-     *
-     * @param address provided address.
-     * @param name    provided name.
-     * @return true - if establishment exists, false - otherwise.
-     */
     Boolean existsByAddressAndName(String address, String name);
 
     @Query(value = "SELECT wh from Establishment e inner join WorkingHours wh " +
-        "on e.id = wh.establishment.id where wh.dayOfWeek = :day order by wh.startTime")
+                   "on e.id = wh.establishment.id where wh.dayOfWeek = :day order by wh.startTime")
     WorkingHours findWorkingHoursByDay(@Param("day") DayOfWeek day);
 
     List<Establishment> findAllByOwnerIdAndNameContainsIgnoreCase(Long ownerId, String name);
@@ -46,6 +28,5 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, Lo
     Optional<Establishment> findByCategoryAndId(Category category, Long id);
 
     List<Establishment> findAllByIdIn(List<Long> ids);
-
 
 }

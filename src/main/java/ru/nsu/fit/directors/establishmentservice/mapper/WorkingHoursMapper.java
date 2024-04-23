@@ -1,5 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.mapper;
 
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 import ru.nsu.fit.directors.establishmentservice.dto.ValidTimeDto;
 
@@ -12,6 +13,8 @@ import java.util.Locale;
 
 @Component
 public class WorkingHoursMapper {
+
+    @Nonnull
     public ValidTimeDto convertFromDateAndTimeToValidTimeDto(LocalDate date) {
         final TextStyle style = TextStyle.SHORT;
         final Locale locale = new Locale("ru");
@@ -22,6 +25,7 @@ public class WorkingHoursMapper {
             .build();
     }
 
+    @Nonnull
     public List<LocalTime> generateTimes(LocalTime start, LocalTime end, int duration) {
         List<LocalTime> times = new ArrayList<>();
         for (LocalTime time = start; time.isBefore(end); time = time.plusMinutes(duration)) {

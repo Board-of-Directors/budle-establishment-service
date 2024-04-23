@@ -6,10 +6,6 @@ import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Service, that responsible for saving images.
- */
-
 public interface ImageService {
 
     /**

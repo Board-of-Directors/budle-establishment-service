@@ -12,24 +12,12 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class
-PhotoMapper {
+public class PhotoMapper {
     private final ImageWorker imageWorker;
 
-    public Set<Photo> convertSetPhotoDtoToModelSet(
-        Set<PhotoDto> photoDtos,
-        Establishment establishment
-    ) {
-        return photoDtos
-            .stream()
-            .map(x -> new Photo(imageWorker.saveImage(x.getImage())))
-            .peek((x) -> x.setEstablishment(establishment))
-            .collect(Collectors.toSet());
-    }
-
-    public Set<PhotoDto> convertModelPhotoSetToDtoSet(Set<Photo> photos) {
-        return photos.stream()
-            .map((photo) -> new PhotoDto(imageWorker.loadImage(photo.getFilepath())))
+    public Set<Photo> toModelSet(Set<PhotoDto> photoDtos, Establishment establishment) {
+        return photoDtos.stream()
+            .map(x -> new Photo().setFilepath(imageWorker.saveImage(x.getImage())).setEstablishment(establishment))
             .collect(Collectors.toSet());
     }
 

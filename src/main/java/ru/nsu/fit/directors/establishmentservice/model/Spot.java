@@ -7,14 +7,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Entity
 @Getter
 @Setter
+@Accessors(chain = true)
 @Table(name = "spots")
-@NoArgsConstructor
 public class Spot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,5 @@ public class Spot {
     private Long localId;
     @OneToOne
     private Establishment establishment;
-
-    public Spot(Long localId, Establishment establishment) {
-        this.localId = localId;
-        this.establishment = establishment;
-    }
 
 }

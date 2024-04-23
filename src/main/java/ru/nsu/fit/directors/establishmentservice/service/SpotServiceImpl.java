@@ -33,7 +33,7 @@ public class SpotServiceImpl implements SpotService {
         log.info("Getting spots by establishment");
         log.info("EstablishmentID: " + establishmentId);
         Establishment establishment = establishmentRepository.findById(establishmentId).orElseThrow();
-        return spotMapper.toListDto(spotRepository.findByEstablishment(establishment));
+        return spotMapper.toDtoList(spotRepository.findByEstablishment(establishment));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class SpotServiceImpl implements SpotService {
         log.info("LocalID: " + localId);
         log.info("EstablishmentID: " + establishmentId);
         spotRepository.save(
-            new Spot(localId, establishmentRepository.getReferenceById(establishmentId))
+            new Spot().setLocalId(localId).setEstablishment(establishmentRepository.getReferenceById(establishmentId))
         );
     }
 

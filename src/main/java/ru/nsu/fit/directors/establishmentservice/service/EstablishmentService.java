@@ -14,10 +14,6 @@ import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Service, that responsible for establishments.
- */
-
 public interface EstablishmentService {
     /**
      * Function, that getting establishment by provided parameters.

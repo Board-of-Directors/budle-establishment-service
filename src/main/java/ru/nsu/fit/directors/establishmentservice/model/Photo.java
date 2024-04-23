@@ -8,13 +8,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Entity
-@Data
 @Table(name = "photo")
-@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +27,5 @@ public class Photo {
 
     @Column(name = "filename")
     private String filepath;
-
-    public Photo(String filepath) {
-        this.filepath = filepath;
-    }
 
 }

@@ -47,6 +47,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import java.io.File;
 import java.io.StringReader;
 import java.lang.reflect.Field;
@@ -110,12 +111,11 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         Category categoryEnum = parameters.category() == null ? null : Category.getEnumByValue(parameters.category());
 
         return Example.of(
-            new Establishment(
-                categoryEnum,
-                parameters.hasMap(),
-                parameters.hasCardPayment(),
-                parameters.name()
-            ),
+            new Establishment()
+                .setCategory(categoryEnum)
+                .setHasMap(parameters.hasMap())
+                .setHasCardPayment(parameters.hasCardPayment())
+                .setName(parameters.name()),
             matcher
         );
     }
@@ -139,7 +139,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Override
     public List<ResponseTagDto> getTags() {
-        return tagMapper.modelArrayToTagDtoList(Tag.values());
+        return tagMapper.toDtoList(Tag.values());
     }
 
     @Override
@@ -173,13 +173,12 @@ public class EstablishmentServiceImpl implements EstablishmentService {
             .map(establishmentMapper::toBasic)
             .toList();
 
-
     }
 
     @Override
     public List<ResponseTagDto> getSpotTags(Long establishmentId) {
         Establishment establishment = getEstablishmentById(establishmentId);
-        return tagMapper.modelSetToSpotTagDtoList(establishment.getTags());
+        return tagMapper.toDtoList(establishment.getTags());
 
     }
 
@@ -298,7 +297,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     private Long saveEstablishmentData(Establishment establishment, RequestEstablishmentDto dto) {
-        Set<Tag> tags = tagMapper.tagDtoSetToModelSet(dto.getTags());
+        Set<Tag> tags = tagMapper.toModelSet(dto.getTags());
         log.info("Tags were converted");
         establishment.setTags(tags);
         Establishment savedEstablishment = establishmentRepository.save(establishment);

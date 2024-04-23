@@ -12,20 +12,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class TagMapper {
     private final ImageWorker imageWorker;
 
-    public ResponseTagDto modelToSpotTagDto(Tag tag) {
+    public ResponseTagDto toDto(Tag tag) {
         ResponseTagDto tagDto = new ResponseTagDto(tag.translateForSpot, tag.assets);
         tagDto.setImage(imageWorker.getImageFromResource(tagDto.getImage()));
         return tagDto;
     }
 
-    public List<ResponseTagDto> modelSetToSpotTagDtoList(Set<Tag> tags) {
+    public List<ResponseTagDto> toDtoList(Set<Tag> tags) {
         return tags.stream()
-            .map(this::modelToSpotTagDto)
+            .map(this::toDto)
             .toList();
     }
 
@@ -35,13 +35,13 @@ public class TagMapper {
         return tagDto;
     }
 
-    public List<ResponseTagDto> modelArrayToTagDtoList(Tag[] tags) {
+    public List<ResponseTagDto> toDtoList(Tag[] tags) {
         return Arrays.stream(tags)
             .map(this::modelToTagDto)
             .toList();
     }
 
-    public Set<Tag> tagDtoSetToModelSet(Set<RequestTagDto> tagDtoSet) {
+    public Set<Tag> toModelSet(Set<RequestTagDto> tagDtoSet) {
         return tagDtoSet.stream()
             .map(x -> Tag.parseEnum(x.getName()))
             .collect(Collectors.toSet());

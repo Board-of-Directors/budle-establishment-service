@@ -10,18 +10,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 import ru.nsu.fit.directors.establishmentservice.enums.DayOfWeek;
 
 import java.time.LocalTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "working_hours")
+@Getter
+@Setter
+@Accessors(chain = true)
+@ToString
 public class WorkingHours {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wh_seq")
@@ -37,6 +39,5 @@ public class WorkingHours {
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
-
 
 }

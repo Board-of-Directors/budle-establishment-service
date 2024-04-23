@@ -22,29 +22,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Class, that provide mapping operations for establishments.
- */
-@Component
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class EstablishmentMapper {
     private final ModelMapper modelMapper;
     private final ImageWorker imageWorker;
     private final EstablishmentFactory establishmentFactory;
-
-    /**
-     * Converts establishment model to establishment dto.
-     * First stage: Use establishment factory to get class of establishment.
-     * Second stage: Use model mapper with provided from factory class
-     * to convert some field automatically.
-     * Third stage: Use image worker to get image from file system and
-     * convert bytes to BASE64.
-     * Other: Convert other fields to those dto.
-     *
-     * @param establishment object that we need to convert.
-     * @return establishmentDto with provided fields.
-     */
 
     public ResponseExtendedEstablishmentInfo toExtended(Establishment establishment) {
         Class<? extends ResponseShortEstablishmentInfo> classOfDto = establishmentFactory
@@ -94,28 +78,6 @@ public class EstablishmentMapper {
         establishmentDto.setImage(imageWorker.loadImage(establishment.getImage()));
         return establishmentDto;
     }
-
-    /**
-     * Convert list of establishment models to list of establishment dto.
-     *
-     * @param establishmentList list of establishment models
-     * @return list of establishment dto.
-     */
-
-    public List<ResponseBasicEstablishmentInfo> modelListToDtoList(List<Establishment> establishmentList) {
-        return establishmentList
-            .stream()
-            .map(this::toBasic)
-            .toList();
-    }
-
-    /**
-     * Converts establishment dto to establishment model.
-     * Stages are similar to opposite mapping.
-     *
-     * @param dto establishment dto object.
-     * @return establishment model object.
-     */
 
     public Establishment dtoToModel(RequestEstablishmentDto dto) {
         Establishment establishment = modelMapper.map(
