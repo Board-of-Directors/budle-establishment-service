@@ -20,9 +20,9 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class SpotServiceImpl implements SpotService {
     private final SpotRepository spotRepository;
     private final EstablishmentRepository establishmentRepository;

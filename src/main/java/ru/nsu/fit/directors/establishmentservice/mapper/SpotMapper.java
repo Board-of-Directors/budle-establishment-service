@@ -1,5 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.mapper;
 
+import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,12 @@ import java.util.List;
 public class SpotMapper {
     private final ModelMapper modelMapper;
 
+    @Nonnull
     public SpotDto modelToDto(Spot spot) {
         return modelMapper.map(spot, SpotDto.class);
     }
 
+    @Nonnull
     public List<SpotDto> toDtoList(List<Spot> spots) {
         return spots.stream()
             .map(spot -> modelMapper.map(spot, SpotDto.class))

@@ -1,5 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.mapper;
 
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestCategoryDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestProductDto;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Component
 public class MenuMapper {
+    @Nonnull
     public List<ResponseMenuCategoryDto> toDto(List<MenuCategory> categories) {
         return categories.stream()
             .filter(category -> category.getParentCategoryId() == null)
@@ -22,6 +24,7 @@ public class MenuMapper {
 
     }
 
+    @Nonnull
     public ResponseMenuCategoryDto toDto(MenuCategory category) {
         return new ResponseMenuCategoryDto()
             .setId(category.getId())
@@ -30,6 +33,7 @@ public class MenuMapper {
             .setChildCategories(category.getChildCategories().stream().map(this::toDto).toList());
     }
 
+    @Nonnull
     public ResponseProductDto toDto(Product product) {
         return new ResponseProductDto()
             .setId(product.getId())
@@ -40,6 +44,7 @@ public class MenuMapper {
             .setOnSale(product.isOnSale());
     }
 
+    @Nonnull
     public MenuCategory toModel(RequestCategoryDto category, Establishment establishment) {
         return new MenuCategory()
             .setName(category.getName())
@@ -47,6 +52,7 @@ public class MenuMapper {
             .setEstablishment(establishment);
     }
 
+    @Nonnull
     public Product toModel(RequestProductDto product, MenuCategory menuCategory) {
         return new Product()
             .setName(product.getName())
@@ -57,6 +63,7 @@ public class MenuMapper {
             .setCategory(menuCategory);
     }
 
+    @Nonnull
     public List<ShortResponseMenuCategoryDto> toShortDto(List<MenuCategory> categories, long establishmentId) {
         return categories.stream()
             .map(this::toShortDto)
@@ -64,6 +71,7 @@ public class MenuMapper {
             .toList();
     }
 
+    @Nonnull
     public ShortResponseMenuCategoryDto toShortDto(MenuCategory category) {
         return new ShortResponseMenuCategoryDto()
             .setId(category.getId())

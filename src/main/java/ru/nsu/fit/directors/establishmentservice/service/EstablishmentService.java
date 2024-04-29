@@ -1,5 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
+import jakarta.annotation.Nonnull;
 import ru.nsu.fit.directors.establishmentservice.dto.EstablishmentListDto;
 import ru.nsu.fit.directors.establishmentservice.dto.ValidTimeDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestEstablishmentDto;
@@ -16,89 +17,150 @@ import java.util.List;
 
 public interface EstablishmentService {
     /**
-     * Function, that getting establishment by provided parameters.
+     * Получить заведения по фильтрам.
      *
-     * @param parameters - request parameters (pagination, sorting, additional)
-     * @return pageable list of Establishment dto.
+     * @param parameters фильтры
+     * @return список заведений
      */
-    EstablishmentListDto getEstablishmentByParams(
-        RequestGetEstablishmentParameters parameters
-    );
+    @Nonnull
+    EstablishmentListDto getEstablishmentByParams(RequestGetEstablishmentParameters parameters);
 
     /**
-     * Function that creates establishment by provided parameters.
+     * Создать заведение.
      *
-     * @param ownerId index of the creator from business service.
-     * @param dto     dto with fields of new establishment model.
-     * @return created establishment identifier
+     * @param ownerId идентификатор создателя
+     * @param dto     данные заведения
+     * @return идентификатор созданного заведения
      */
+    @Nonnull
     Long createEstablishment(Long ownerId, RequestEstablishmentDto dto);
 
     /**
-     * Function, that returns all categories from out system.
+     * Получить все категории.
      *
-     * @return all categories of establishment those we have.
+     * @return список категорий
      */
+    @Nonnull
     List<String> getCategories();
 
     /**
-     * Function, that returns all tags from our system.
+     * Получить тэги.
      *
-     * @return all tags of establishment those we have.
+     * @return список тэгов
      */
-
+    @Nonnull
     List<ResponseTagDto> getTags();
 
     /**
-     * Function that add map of establishment to current establishment.
+     * Добавить карту заведения.
      *
-     * @param establishmentId to what establishment we need to add map.
-     * @param map             string representation of establishment map.
+     * @param establishmentId идентификатор заведения
+     * @param map             карта
      */
-
     void addMap(Long establishmentId, String map);
 
     /**
-     * Function, that compute and return all valid time for booking process.
+     * Получить доступное время для бронирования.
      *
-     * @param establishmentId for what establishment we need to compute valid booking time.
-     * @return list of all valid booking times for a week.
+     * @param establishmentId идентификатор заведения
+     * @return список валидных времен
      */
+    @Nonnull
     List<ValidTimeDto> getValidTime(Long establishmentId);
 
     /**
-     * Function, that returns all spot tags, those have current establishment.
+     * Получить доступные тэги места.
      *
-     * @param establishmentId from what establishment we get spot tags.
-     * @return list of tag dto.
+     * @param establishmentId идентификатор заведения
+     * @return список тэгов мест
      */
+    @Nonnull
     List<ResponseTagDto> getSpotTags(Long establishmentId);
 
     /**
-     * Function, that returns establishment by provided id.
-     * Or else throw establishment not found exception.
+     * Получить заведение по идентификатору.
      *
-     * @param establishmentId which we are searching for.
-     * @return found establishment.
+     * @param establishmentId идентификатор заведения
+     * @return модель заведения
      */
-
+    @Nonnull
     Establishment getEstablishmentById(Long establishmentId);
 
+    /**
+     * Получить расширенные данные о заведении.
+     *
+     * @param establishmentId идентификатор заведения
+     * @return расширенные данные о заведении
+     */
+    @Nonnull
     ResponseExtendedEstablishmentInfo getEstablishmentInfoById(Long establishmentId);
 
+    /**
+     * Получить заведения по создателю.
+     *
+     * @param id   идентифкатор создателя
+     * @param name название заведения
+     * @return список заведений
+     */
+    @Nonnull
     List<ResponseShortEstablishmentInfo> getEstablishmentsByOwner(Long id, String name);
 
+    /**
+     * Получить варианты подкатегорий.
+     *
+     * @param category категория
+     * @return варианты подкатегорий
+     */
+    @Nonnull
     ResponseSubcategoryDto getCategoryVariants(String category);
 
+    /**
+     * Обновить данные заведения.
+     *
+     * @param establishmentId  идентификатор заведения
+     * @param establishmentDto данные заведения
+     */
     void updateEstablishment(Long establishmentId, RequestEstablishmentDto establishmentDto);
 
+    /**
+     * Удалить заведение.
+     *
+     * @param establishmentId идентификатор заведения
+     */
     void deleteEstablishment(Long establishmentId);
 
+    /**
+     * Получить тэг по названию.
+     *
+     * @param tagName название тэга
+     * @return тэг
+     */
+    @Nonnull
     String getTagByName(String tagName);
 
+    /**
+     * Получить альтернативное валидное время брони.
+     *
+     * @param establishmentId идентификатор заведения
+     * @return список валидных времен для бронирования
+     */
+    @Nonnull
     List<LocalDateTime> getAlternativeValidTime(Long establishmentId);
 
+    /**
+     * Пересчитать рейтинг заведения.
+     *
+     * @param score         новая оценка
+     * @param establishment заведение
+     */
     void recountRating(Integer score, Establishment establishment);
 
+    /**
+     * Получить заведения по идентификаторам.
+     *
+     * @param ids идентификаторы заведений
+     * @return данные заведений
+     */
+    @Nonnull
     List<ResponseBasicEstablishmentInfo> getEstablishmentsByIds(List<Long> ids);
 }

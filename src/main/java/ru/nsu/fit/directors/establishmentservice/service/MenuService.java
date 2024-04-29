@@ -1,5 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
+import jakarta.annotation.Nonnull;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestCategoryDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestProductDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseMenuCategoryDto;
@@ -14,6 +15,7 @@ public interface MenuService {
      * @param establishmentId идентификатор заведения для получения меню
      * @return список категорий меню
      */
+    @Nonnull
     List<ResponseMenuCategoryDto> getMenu(long establishmentId);
 
     /**
@@ -50,5 +52,6 @@ public interface MenuService {
      * @param establishmentId идентификатор заведения
      * @return краткий список категорий
      */
+    @Nonnull
     List<ShortResponseMenuCategoryDto> getShortMenu(long establishmentId);
 }

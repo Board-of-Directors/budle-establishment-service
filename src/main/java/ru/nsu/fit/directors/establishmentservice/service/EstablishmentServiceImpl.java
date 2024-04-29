@@ -59,9 +59,9 @@ import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class EstablishmentServiceImpl implements EstablishmentService {
     private final EstablishmentRepository establishmentRepository;
     private final SpotService spotService;
@@ -70,10 +70,9 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     private final WorkingHoursService workingHoursService;
     private final TagMapper tagMapper;
 
+    @Nonnull
     @Override
-    public EstablishmentListDto getEstablishmentByParams(
-        RequestGetEstablishmentParameters parameters
-    ) {
+    public EstablishmentListDto getEstablishmentByParams(RequestGetEstablishmentParameters parameters) {
         log.info("Getting establishment by parameters {}", parameters);
         List<ResponseBasicEstablishmentInfo> results = establishmentRepository.findBy(
                 toExample(parameters),
@@ -120,6 +119,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         );
     }
 
+    @Nonnull
     @Override
     @Transactional
     public Long createEstablishment(Long ownerId, RequestEstablishmentDto dto) {
@@ -131,23 +131,26 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         return saveEstablishmentData(establishment, dto);
     }
 
+    @Nonnull
     @Override
     public List<String> getCategories() {
-        log.info("Getting categories");
         return Arrays.stream(Category.values()).map(x -> x.value).toList();
     }
 
+    @Nonnull
     @Override
     public List<ResponseTagDto> getTags() {
         return tagMapper.toDtoList(Tag.values());
     }
 
+    @Nonnull
     @Override
     public List<ValidTimeDto> getValidTime(Long establishmentId) {
         Establishment establishment = getEstablishmentById(establishmentId);
         return workingHoursService.generateValidBookingHours(establishment);
     }
 
+    @Nonnull
     @Override
     public List<LocalDateTime> getAlternativeValidTime(Long establishmentId) {
         Establishment establishment = getEstablishmentById(establishmentId);
@@ -167,6 +170,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         }
     }
 
+    @Nonnull
     @Override
     public List<ResponseBasicEstablishmentInfo> getEstablishmentsByIds(List<Long> ids) {
         return establishmentRepository.findAllByIdIn(ids).stream()
@@ -175,6 +179,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     }
 
+    @Nonnull
     @Override
     public List<ResponseTagDto> getSpotTags(Long establishmentId) {
         Establishment establishment = getEstablishmentById(establishmentId);
@@ -232,8 +237,8 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         );
     }
 
-    @Override
     @Nonnull
+    @Override
     public ResponseSubcategoryDto getCategoryVariants(String category) {
         Category categoryEnum = Category.getEnumByValue(category);
         return categoryEnum.variants;
@@ -261,6 +266,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         establishmentRepository.delete(establishment);
     }
 
+    @Nonnull
     @Override
     public String getTagByName(String tagName) {
         return tagMapper.modelToTagDto(Tag.parseEnum(tagName)).getImage();
@@ -275,13 +281,14 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         imageService.deleteImages(paths.toList());
     }
 
+    @Nonnull
+    @Override
     public Establishment getEstablishmentById(Long establishmentId) {
-        return establishmentRepository
-            .findById(establishmentId).orElseThrow(
-                () -> new EstablishmentNotFoundException(establishmentId)
-            );
+        return establishmentRepository.findById(establishmentId)
+            .orElseThrow(() -> new EstablishmentNotFoundException(establishmentId));
     }
 
+    @Nonnull
     @Override
     public ResponseExtendedEstablishmentInfo getEstablishmentInfoById(Long establishmentId) {
         return establishmentMapper.toExtended(getEstablishmentById(establishmentId));
@@ -296,6 +303,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         }
     }
 
+    @Nonnull
     private Long saveEstablishmentData(Establishment establishment, RequestEstablishmentDto dto) {
         Set<Tag> tags = tagMapper.toModelSet(dto.getTags());
         log.info("Tags were converted");

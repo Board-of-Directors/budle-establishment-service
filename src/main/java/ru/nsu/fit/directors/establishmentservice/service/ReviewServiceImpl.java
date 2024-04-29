@@ -14,6 +14,7 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
+    @Nonnull
     @Override
     public Review save(Review review) {
         return reviewRepository.save(review);

@@ -1,6 +1,5 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
-
 import ru.nsu.fit.directors.establishmentservice.dto.ValidTimeDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestWorkingHoursDto;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
@@ -10,9 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Service that responsible for working hours.
- */
 public interface WorkingHoursService {
     /**
      * Save provided working hours dto associated with current establishment.

@@ -12,7 +12,9 @@ public interface ReviewFacade {
      * Создать отзыв.
      *
      * @param requestReviewDto информация об отзыве
+     * @return отзыв
      */
+    @Nonnull
     Review createReview(RequestReviewDto requestReviewDto);
 
     /**

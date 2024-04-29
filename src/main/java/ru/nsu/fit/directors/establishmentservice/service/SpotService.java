@@ -6,9 +6,6 @@ import ru.nsu.fit.directors.establishmentservice.model.Spot;
 
 import java.util.List;
 
-/**
- * Class that responsible for spots.
- */
 public interface SpotService {
     /**
      * Function that gets spots by establishment.

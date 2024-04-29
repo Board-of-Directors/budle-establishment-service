@@ -9,12 +9,17 @@ import java.util.Set;
 public interface ImageService {
 
     /**
-     * Saving images for provided establishment.
+     * Сохранить фотографии для заведения.
      *
-     * @param photos        set of photos those we need to save.
-     * @param establishment which will be associated with those photos.
+     * @param photos        фотографии
+     * @param establishment заведение
      */
     void saveImages(Set<PhotoDto> photos, Establishment establishment);
 
+    /**
+     * Удалить фотографии.
+     *
+     * @param images фотографии
+     */
     void deleteImages(List<String> images);
 }

@@ -1,5 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
+import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestCategoryDto;
@@ -13,6 +14,7 @@ import ru.nsu.fit.directors.establishmentservice.model.Restaurant;
 import ru.nsu.fit.directors.establishmentservice.repository.EstablishmentRepository;
 import ru.nsu.fit.directors.establishmentservice.repository.MenuRepository;
 import ru.nsu.fit.directors.establishmentservice.repository.ProductRepository;
+
 import java.util.List;
 
 @Service
@@ -24,6 +26,7 @@ public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     private final ProductRepository productRepository;
 
+    @Nonnull
     @Override
     public List<ResponseMenuCategoryDto> getMenu(long establishmentId) {
         Restaurant restaurant =
@@ -45,7 +48,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void createProduct(RequestProductDto product) {
-        productRepository.save(menuMapper.toModel(product, menuRepository.findById(product.getCategoryId()).orElseThrow()));
+        productRepository.save(menuMapper.toModel(
+            product,
+            menuRepository.findById(product.getCategoryId()).orElseThrow()
+        ));
     }
 
     @Override
@@ -58,6 +64,7 @@ public class MenuServiceImpl implements MenuService {
         productRepository.deleteById(productId);
     }
 
+    @Nonnull
     @Override
     public List<ShortResponseMenuCategoryDto> getShortMenu(long establishmentId) {
         Restaurant restaurant =
@@ -68,6 +75,5 @@ public class MenuServiceImpl implements MenuService {
             establishmentId
         );
     }
-
 
 }

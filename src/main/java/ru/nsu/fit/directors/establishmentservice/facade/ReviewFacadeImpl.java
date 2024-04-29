@@ -21,8 +21,9 @@ public class ReviewFacadeImpl implements ReviewFacade {
     private final EstablishmentService establishmentService;
     private final ReviewMapper reviewMapper;
 
-    @Transactional
+    @Nonnull
     @Override
+    @Transactional
     public Review createReview(RequestReviewDto reviewDto) {
         Establishment establishment = establishmentService.getEstablishmentById(reviewDto.establishmentId());
         establishmentService.recountRating(reviewDto.score(), establishment);
@@ -38,6 +39,7 @@ public class ReviewFacadeImpl implements ReviewFacade {
             .toList();
     }
 
+    @Nonnull
     @Override
     public List<ResponseReviewDto> findReviews(List<Long> ids) {
         return reviewService.findByIds(ids).stream()

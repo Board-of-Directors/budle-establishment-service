@@ -15,8 +15,6 @@ import java.util.Optional;
 @Repository
 public interface EstablishmentRepository extends JpaRepository<Establishment, Long> {
 
-    Establishment getEstablishmentById(Long id);
-
     Boolean existsByAddressAndName(String address, String name);
 
     @Query(value = "SELECT wh from Establishment e inner join WorkingHours wh " +

@@ -22,19 +22,11 @@ import ru.nsu.fit.directors.establishmentservice.model.Restaurant;
 
 import java.util.Map;
 
-/**
- * Class that represent establishment factory.
- * Used for reflecting establishment and convert additional fields.
- * Contains two maps: for entities and for dto.
- */
 @Component
 public class EstablishmentFactory {
     private final Map<String, Establishment> entityFactory;
     private final Map<String, Map<String, ? extends ResponseShortEstablishmentInfo>> factoryOfDtoFactories;
 
-    /**
-     * Default constructor of establishment factory.
-     */
     public EstablishmentFactory() {
         entityFactory = getEntityFactory();
         Map<String, ResponseBasicEstablishmentInfo> basicFactory = getBasicDtoFactory();

@@ -13,9 +13,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
-@RequiredArgsConstructor
-@Service
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
     private final PhotoMapper photoMapper;

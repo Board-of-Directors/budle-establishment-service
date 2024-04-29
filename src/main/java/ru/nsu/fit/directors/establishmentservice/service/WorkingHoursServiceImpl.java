@@ -27,9 +27,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class WorkingHoursServiceImpl implements WorkingHoursService {
     private static final int DAY_COUNT_GENERATED_FOR_BOOKING = 14;
     private final ModelMapper mapper;

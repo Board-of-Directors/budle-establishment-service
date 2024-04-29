@@ -12,6 +12,7 @@ public interface ReviewService {
      *
      * @param review информация об отзыве
      */
+    @Nonnull
     Review save(Review review);
 
     /**

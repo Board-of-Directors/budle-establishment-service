@@ -19,11 +19,6 @@ import java.time.ZoneOffset;
 import java.util.Base64;
 import java.util.Iterator;
 
-/**
- * Class, that responsible for image saving into file system
- * and image loading from file system.
- * Also, have methods for compress images and getting images from resources.
- */
 @Component
 public class ImageWorker {
     private final static String SERVER_PATH = "./images";
