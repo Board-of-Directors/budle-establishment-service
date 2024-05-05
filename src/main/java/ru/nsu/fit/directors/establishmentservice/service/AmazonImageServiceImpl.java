@@ -22,7 +22,7 @@ import ru.nsu.fit.directors.establishmentservice.repository.ImageRepository;
 @RequiredArgsConstructor
 public class AmazonImageServiceImpl implements ImageService {
     private static final String PREFIX = "https://storage.yandexcloud.net";
-    private static final String BUCKET_NAME = "dio-test-bucket";
+    private static final String BUCKET_NAME = "budle-image-bucket";
     private final AmazonS3 amazonClient;
     private final ImageRepository imageRepository;
 
