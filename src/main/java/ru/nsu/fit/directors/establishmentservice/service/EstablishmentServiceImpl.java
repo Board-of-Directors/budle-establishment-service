@@ -134,7 +134,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Nonnull
     @Override
     public List<String> getCategories() {
-        return Arrays.stream(Category.values()).map(x -> x.value).toList();
+        return Arrays.stream(Category.values()).map(Category::getValue).toList();
     }
 
     @Nonnull
@@ -241,7 +241,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Override
     public ResponseSubcategoryDto getCategoryVariants(String category) {
         Category categoryEnum = Category.getEnumByValue(category);
-        return categoryEnum.variants;
+        return categoryEnum.getVariants();
     }
 
     @Override

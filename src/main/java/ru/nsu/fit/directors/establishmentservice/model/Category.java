@@ -1,7 +1,7 @@
 package ru.nsu.fit.directors.establishmentservice.model;
 
-
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseSubcategoryDto;
 import ru.nsu.fit.directors.establishmentservice.enums.CuisineCountry;
 import ru.nsu.fit.directors.establishmentservice.enums.HotelStars;
@@ -9,22 +9,16 @@ import ru.nsu.fit.directors.establishmentservice.exception.IncorrectCategoryExce
 
 import java.util.Arrays;
 
+@Getter
+@RequiredArgsConstructor
 public enum Category {
     restaurant("Рестораны", new ResponseSubcategoryDto(CuisineCountry.getVariants(), "Тип кухни", "cuisineCountry")),
     hotel("Отели", new ResponseSubcategoryDto(HotelStars.getVariants(), "Количество звезд", "starsCount")),
     game_club("Игровые клубы", new ResponseSubcategoryDto()),
     barbershop("Парикмахерские", new ResponseSubcategoryDto());
 
-    @Getter
-
-    public final String value;
-
-    public final ResponseSubcategoryDto variants;
-
-    Category(String value, ResponseSubcategoryDto variants) {
-        this.value = value;
-        this.variants = variants;
-    }
+    private final String value;
+    private final ResponseSubcategoryDto variants;
 
     static public Category getEnumByValue(String value) {
         for (Category e : Category.values()) {

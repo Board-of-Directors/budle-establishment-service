@@ -36,10 +36,10 @@ public class EstablishmentFactory {
 
     private Map<String, Establishment> getEntityFactory() {
         return Map.of(
-            Category.hotel.value, new Hotel(),
-            Category.restaurant.value, new Restaurant(),
-            Category.game_club.value, new GameClub(),
-            Category.barbershop.value, new Barbershop()
+            Category.hotel.getValue(), new Hotel(),
+            Category.restaurant.getValue(), new Restaurant(),
+            Category.game_club.getValue(), new GameClub(),
+            Category.barbershop.getValue(), new Barbershop()
         );
     }
 

@@ -14,7 +14,7 @@ public class MapperConfiguration {
     private final AbstractConverter<CuisineCountry, String> convertCuisine = new AbstractConverter<>() {
         @Override
         protected String convert(CuisineCountry source) {
-            return source.getValue();
+            return source.getReadableName();
         }
     };
     private final AbstractConverter<String, CuisineCountry> convertToCuisine = new AbstractConverter<>() {
@@ -27,7 +27,7 @@ public class MapperConfiguration {
     private final AbstractConverter<Category, String> convertCategory = new AbstractConverter<>() {
         @Override
         protected String convert(Category source) {
-            return source.value;
+            return source.getValue();
         }
     };
     private final AbstractConverter<String, Category> convertToCategory = new AbstractConverter<>() {

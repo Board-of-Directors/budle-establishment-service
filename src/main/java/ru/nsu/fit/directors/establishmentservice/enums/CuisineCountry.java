@@ -1,5 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.enums;
 
+import jakarta.annotation.Nonnull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public enum CuisineCountry {
+public enum CuisineCountry implements ParseableEnum {
     european("Европейская"),
     georgian("Грузинская"),
     asian("Азиатская"),
@@ -16,11 +17,17 @@ public enum CuisineCountry {
     vietnamese("Вьетнамская"),
     ;
 
-    private final String value;
+    private final String readableName;
 
     public static List<String> getVariants() {
         return Arrays.stream(CuisineCountry.values())
-            .map(CuisineCountry::getValue)
+            .map(CuisineCountry::getReadableName)
             .toList();
+    }
+
+    @Nonnull
+    @Override
+    public String getParseableName() {
+        return readableName;
     }
 }
