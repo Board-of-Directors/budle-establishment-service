@@ -7,6 +7,7 @@ import ru.nsu.fit.directors.establishmentservice.dto.request.RequestTagDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseTagDto;
 import ru.nsu.fit.directors.establishmentservice.enums.Tag;
 import ru.nsu.fit.directors.establishmentservice.service.ImageWorker;
+import ru.nsu.fit.directors.establishmentservice.utils.EnumUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,7 @@ public class TagMapper {
 
     @Nonnull
     public ResponseTagDto toDto(Tag tag) {
-        ResponseTagDto tagDto = new ResponseTagDto(tag.translateForSpot, tag.assets);
+        ResponseTagDto tagDto = new ResponseTagDto(tag.getTranslateForSpot(), tag.getAssets());
         tagDto.setImage(imageWorker.getImageFromResource(tagDto.getImage()));
         return tagDto;
     }
@@ -34,7 +35,7 @@ public class TagMapper {
 
     @Nonnull
     public ResponseTagDto modelToTagDto(Tag tag) {
-        ResponseTagDto tagDto = new ResponseTagDto(tag.translate, tag.assets);
+        ResponseTagDto tagDto = new ResponseTagDto(tag.getTranslate(), tag.getAssets());
         tagDto.setImage(imageWorker.getImageFromResource(tagDto.getImage()));
         return tagDto;
     }
@@ -49,7 +50,7 @@ public class TagMapper {
     @Nonnull
     public Set<Tag> toModelSet(Set<RequestTagDto> tagDtoSet) {
         return tagDtoSet.stream()
-            .map(x -> Tag.parseEnum(x.getName()))
+            .map(x -> EnumUtils.parseEnum(x.getName(), Tag.class))
             .collect(Collectors.toSet());
     }
 

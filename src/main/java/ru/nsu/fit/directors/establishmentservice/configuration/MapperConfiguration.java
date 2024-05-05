@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.nsu.fit.directors.establishmentservice.enums.CuisineCountry;
 import ru.nsu.fit.directors.establishmentservice.model.Category;
+import ru.nsu.fit.directors.establishmentservice.utils.EnumUtils;
 
 /**
  * Mapper configuration for our system.
@@ -23,7 +24,7 @@ public class MapperConfiguration {
 
         @Override
         protected CuisineCountry convert(String source) {
-            return CuisineCountry.getEnumByValue(source);
+            return EnumUtils.parseEnum(source, CuisineCountry.class);
         }
     };
     private final AbstractConverter<Category, String> convertCategory = new AbstractConverter<>() {

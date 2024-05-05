@@ -51,7 +51,7 @@ public class EstablishmentMapper {
         responseEstablishmentInfo.setTags(establishment
             .getTags()
             .stream()
-            .map(x -> new ResponseTagDto(x.translate, imageWorker.getImageFromResource(x.assets)))
+            .map(x -> new ResponseTagDto(x.getTranslate(), imageWorker.getImageFromResource(x.getAssets())))
             .collect(Collectors.toSet()));
 
         responseEstablishmentInfo.setPhotos(establishment

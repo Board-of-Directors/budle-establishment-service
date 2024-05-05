@@ -1,12 +1,14 @@
 package ru.nsu.fit.directors.establishmentservice.enums;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import ru.nsu.fit.directors.establishmentservice.exception.IncorrectDayOfWeekException;
 
 import java.time.format.TextStyle;
 import java.util.Locale;
 
 @Getter
+@RequiredArgsConstructor
 public enum DayOfWeek {
     Monday("Пн", "пн", 1),
     Tuesday("Вт", "вт", 2),
@@ -18,15 +20,7 @@ public enum DayOfWeek {
 
     private final String translate;
     private final String translateLittle;
-
     private final Integer ordinal;
-
-    DayOfWeek(String translate, String translateLittle, Integer ordinal) {
-
-        this.translate = translate;
-        this.translateLittle = translateLittle;
-        this.ordinal = ordinal;
-    }
 
     static public DayOfWeek getDayFromDayOfWeek(java.time.DayOfWeek day) {
         String dayName = day.getDisplayName(TextStyle.SHORT, new Locale("ru"));

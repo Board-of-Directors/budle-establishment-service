@@ -1,10 +1,13 @@
 package ru.nsu.fit.directors.establishmentservice.enums;
 
-import ru.nsu.fit.directors.establishmentservice.exception.IncorrectTagException;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Objects;
 
+@Getter
+@RequiredArgsConstructor
 public enum Tag {
     wifi("WI-FI", "/wifi.svg", "Около Wi-Fi"),
     power("Розетки", "/zap.svg", "Около розетки"),
@@ -13,28 +16,13 @@ public enum Tag {
     kitchen("Кухня", "/eye.svg", "Около кухни"),
     dance("Танцпол", "/music.svg", "Около танцпола");
 
-    public final String translate;
+    private final String translate;
 
-    public final String assets;
+    private final String assets;
 
-    public final String translateForSpot;
-
-    Tag(String translate, String assets, String translateForSpot) {
-        this.translate = translate;
-        this.assets = assets;
-        this.translateForSpot = translateForSpot;
-    }
+    private final String translateForSpot;
 
     public static String getTags() {
         return Arrays.stream(Tag.values()).map(Objects::toString).reduce("", (acc, src) -> acc + " " + src);
-    }
-
-    public static Tag parseEnum(String name) {
-        for (Tag tag : Tag.values()) {
-            if (name.equals(tag.translate)) {
-                return tag;
-            }
-        }
-        throw new IncorrectTagException();
     }
 }

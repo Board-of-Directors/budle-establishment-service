@@ -39,6 +39,7 @@ import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import ru.nsu.fit.directors.establishmentservice.model.Photo;
 import ru.nsu.fit.directors.establishmentservice.model.Spot;
 import ru.nsu.fit.directors.establishmentservice.repository.EstablishmentRepository;
+import ru.nsu.fit.directors.establishmentservice.utils.EnumUtils;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -269,7 +270,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Nonnull
     @Override
     public String getTagByName(String tagName) {
-        return tagMapper.modelToTagDto(Tag.parseEnum(tagName)).getImage();
+        return tagMapper.modelToTagDto(EnumUtils.parseEnum(tagName, Tag.class)).getImage();
     }
 
     private void deleteEstablishmentPhotos(Establishment establishment) {
