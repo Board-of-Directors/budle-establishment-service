@@ -9,9 +9,6 @@ import ru.nsu.fit.directors.establishmentservice.enums.CuisineCountry;
 import ru.nsu.fit.directors.establishmentservice.model.Category;
 import ru.nsu.fit.directors.establishmentservice.utils.EnumUtils;
 
-/**
- * Mapper configuration for our system.
- */
 @Configuration
 public class MapperConfiguration {
     private final AbstractConverter<CuisineCountry, String> convertCuisine = new AbstractConverter<>() {
@@ -40,21 +37,7 @@ public class MapperConfiguration {
             return Category.getEnumByValue(source);
         }
     };
-   /* private final AbstractConverter<OrderStatus, Integer> convertOrderStatus =
-        new AbstractConverter<>() {
-            @Override
-            protected Integer convert(OrderStatus source) {
-                return source.getStatus();
-            }
-        };
 
-    */
-
-    /**
-     * Bean that allows dependency injection for model mapper.
-     *
-     * @return instance of model mapper.
-     */
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
@@ -63,7 +46,6 @@ public class MapperConfiguration {
         mapper.addConverter(convertCategory);
         mapper.addConverter(convertToCuisine);
         mapper.addConverter(convertToCategory);
-        //mapper.addConverter(convertOrderStatus);
         return mapper;
     }
 }

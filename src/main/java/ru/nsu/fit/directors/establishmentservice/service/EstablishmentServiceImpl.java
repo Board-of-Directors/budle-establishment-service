@@ -66,7 +66,8 @@ import java.util.stream.Stream;
 public class EstablishmentServiceImpl implements EstablishmentService {
     private final EstablishmentRepository establishmentRepository;
     private final SpotService spotService;
-    private final ImageService imageService;
+    private final ImageService amazonImageServiceImpl;
+    private final ImageService imageServiceImpl;
     private final EstablishmentMapper establishmentMapper;
     private final WorkingHoursService workingHoursService;
     private final TagMapper tagMapper;
@@ -124,11 +125,9 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Override
     @Transactional
     public Long createEstablishment(Long ownerId, RequestEstablishmentDto dto) {
-        log.info("Creating new establishment");
         checkEstablishmentExistence(dto);
         Establishment establishment = establishmentMapper.dtoToModel(dto);
         establishment.setOwnerId(ownerId);
-        log.info("Establishment was converted");
         return saveEstablishmentData(establishment, dto);
     }
 
@@ -279,7 +278,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
             paths = Stream.concat(paths, establishment.getPhotos().stream().map(Photo::getFilepath));
         }
         paths = Stream.concat(paths, Stream.of(establishment.getImage()));
-        imageService.deleteImages(paths.toList());
+        imageServiceImpl.deleteImages(paths.toList());
     }
 
     @Nonnull
@@ -299,7 +298,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         String address = dto.getAddress();
         String name = dto.getName();
         if (establishmentRepository.existsByAddressAndName(address, name)) {
-            log.warn("Establishment {} {} already exists", name, address);
             throw new EstablishmentAlreadyExistsException(name, address);
         }
     }
@@ -315,7 +313,8 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         Set<PhotoDto> photos = dto.getPhotosInput();
         workingHoursService.saveWorkingHours(responseWorkingHoursDto, savedEstablishment);
         log.info("Working hours was saved");
-        imageService.saveImages(photos, savedEstablishment);
+        imageServiceImpl.saveImages(photos, savedEstablishment);
+        amazonImageServiceImpl.saveImages(photos, savedEstablishment);
         log.info("Images was saved.");
         log.info("Establishment save successfully");
         if (dto.getMap() != null) {
