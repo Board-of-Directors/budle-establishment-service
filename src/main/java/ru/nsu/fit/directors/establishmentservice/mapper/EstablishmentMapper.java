@@ -79,7 +79,7 @@ public class EstablishmentMapper {
         return establishmentDto;
     }
 
-    public Establishment dtoToModel(RequestEstablishmentDto dto) {
+    public Establishment toModel(RequestEstablishmentDto dto) {
         Establishment establishment = modelMapper.map(
             dto,
             establishmentFactory.getEstablishmentEntity(dto.getCategory())

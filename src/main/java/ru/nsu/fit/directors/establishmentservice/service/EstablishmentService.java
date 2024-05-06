@@ -1,6 +1,7 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
 import jakarta.annotation.Nonnull;
+import org.springframework.web.multipart.MultipartFile;
 import ru.nsu.fit.directors.establishmentservice.dto.EstablishmentListDto;
 import ru.nsu.fit.directors.establishmentservice.dto.ValidTimeDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestEstablishmentDto;
@@ -34,6 +35,17 @@ public interface EstablishmentService {
      */
     @Nonnull
     Long createEstablishment(Long ownerId, RequestEstablishmentDto dto);
+
+    /**
+     * Создать заведение.
+     *
+     * @param ownerId идентификатор владельца
+     * @param dto     данные заведения
+     * @param images  фотографии заведения
+     * @return идентификатор созданного заведения
+     */
+    @Nonnull
+    Long createEstablishment(Long ownerId, RequestEstablishmentDto dto, MultipartFile[] images);
 
     /**
      * Получить все категории.

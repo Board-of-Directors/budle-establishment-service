@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -126,9 +127,37 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Transactional
     public Long createEstablishment(Long ownerId, RequestEstablishmentDto dto) {
         checkEstablishmentExistence(dto);
-        Establishment establishment = establishmentMapper.dtoToModel(dto);
+        Establishment establishment = establishmentMapper.toModel(dto);
         establishment.setOwnerId(ownerId);
         return saveEstablishmentData(establishment, dto);
+    }
+
+    @Nonnull
+    @Override
+    public Long createEstablishment(Long ownerId, RequestEstablishmentDto dto, MultipartFile[] images) {
+        checkEstablishmentExistence(dto);
+        Establishment establishment = establishmentMapper.toModel(dto);
+        establishment.setOwnerId(ownerId);
+        return saveEstablishmentDataV2(establishment, dto, images);
+    }
+
+    @Nonnull
+    private Long saveEstablishmentDataV2(Establishment establishment, RequestEstablishmentDto dto, MultipartFile[] images) {
+        Set<Tag> tags = tagMapper.toModelSet(dto.getTags());
+        log.info("Tags were converted");
+        establishment.setTags(tags);
+        Establishment savedEstablishment = establishmentRepository.save(establishment);
+        log.info("Establishment was saved in db");
+        Set<RequestWorkingHoursDto> responseWorkingHoursDto = dto.getWorkingHours();
+        workingHoursService.saveWorkingHours(responseWorkingHoursDto, savedEstablishment);
+        log.info("Working hours was saved");
+        amazonImageServiceImpl.saveImages(images, savedEstablishment);
+        log.info("Images was saved.");
+        log.info("Establishment save successfully");
+        if (dto.getMap() != null) {
+            addMap(establishment.getId(), dto.getMap());
+        }
+        return savedEstablishment.getId();
     }
 
     @Nonnull
@@ -248,7 +277,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Transactional
     public void updateEstablishment(Long establishmentId, RequestEstablishmentDto establishmentDto) {
         Establishment originalEstablishment = getEstablishmentById(establishmentId);
-        Establishment establishment = establishmentMapper.dtoToModel(establishmentDto);
+        Establishment establishment = establishmentMapper.toModel(establishmentDto);
         establishment.setId(establishmentId);
         deleteEstablishmentPhotos(originalEstablishment);
         deleteEstablishmentHours(originalEstablishment);

@@ -1,5 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 
@@ -7,6 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 public interface ImageService {
+    /**
+     * Сохранить фотографии для заведения.
+     *
+     * @param images        фотографии
+     * @param establishment заведение
+     */
+    void saveImages(MultipartFile[] images, Establishment establishment);
 
     /**
      * Сохранить фотографии для заведения.

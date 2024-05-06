@@ -2,12 +2,14 @@ package ru.nsu.fit.directors.establishmentservice.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,19 @@ public class AmazonImageServiceImpl implements ImageService {
     @Nonnull
     public String getByKey(String relativePath) {
         return String.join("/", PREFIX, BUCKET_NAME, relativePath);
+    }
+
+    @Override
+    public void saveImages(@Nullable MultipartFile[] images, Establishment establishment) {
+        if (Objects.isNull(images)) {
+            return;
+        }
+        for (MultipartFile image : images) {
+            String filePath = UUID.randomUUID().toString();
+            Photo photoEntity = new Photo().setEstablishment(establishment).setFilepath(filePath);
+            save(filePath, image);
+            imageRepository.save(photoEntity);
+        }
     }
 
     @Override
