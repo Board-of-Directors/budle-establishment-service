@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping(value = "/internal/establishment", produces = MediaType.APPLICATION_JSON_VALUE)
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+@RequiredArgsConstructor
 public class InternalEstablishmentController {
     private final EstablishmentService establishmentService;
 

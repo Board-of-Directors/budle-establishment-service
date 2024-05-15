@@ -1,6 +1,7 @@
 package ru.nsu.fit.directors.establishmentservice.internal;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,7 @@ import ru.nsu.fit.directors.establishmentservice.service.MenuService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/internal/menu")
+@RequestMapping(value = "/internal/menu", produces = MediaType.APPLICATION_JSON_VALUE)
 public class InternalMenuController {
     private final MenuService menuService;
 
