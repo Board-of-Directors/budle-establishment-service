@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestEstablishmentDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseShortEstablishmentInfo;
@@ -43,12 +41,11 @@ public class InternalEstablishmentController {
     }
 
     @PostMapping(value = "/v2/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Long createEstablishment(
+    public Long createEstablishmentV2(
         @RequestParam Long ownerId,
-        @Valid @RequestPart(name = "establishment") RequestEstablishmentDto requestEstablishmentDto,
-        @RequestPart(name = "images") MultipartFile[] images
+        @Valid @RequestBody RequestEstablishmentDto requestEstablishmentDto
     ) {
-        return establishmentService.createEstablishment(ownerId, requestEstablishmentDto, images);
+        return establishmentService.createEstablishmentV2(ownerId, requestEstablishmentDto);
     }
 
     @PutMapping(value = "/map", consumes = "application/xml")

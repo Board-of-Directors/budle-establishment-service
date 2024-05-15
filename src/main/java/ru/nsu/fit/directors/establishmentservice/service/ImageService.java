@@ -2,6 +2,7 @@ package ru.nsu.fit.directors.establishmentservice.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
+import ru.nsu.fit.directors.establishmentservice.model.DetachedImage;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 
 import java.util.List;
@@ -13,10 +14,11 @@ public interface ImageService {
     /**
      * Сохранить фотографии для заведения.
      *
-     * @param images        фотографии
      * @param establishment заведение
      */
-    void saveImages(MultipartFile[] images, Establishment establishment);
+    default void saveImagesV2(Set<PhotoDto> photos, Establishment establishment) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Сохранить фотографии для заведения.
@@ -40,6 +42,17 @@ public interface ImageService {
      */
     @Nonnull
     default String uploadImage(MultipartFile image) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Получить изображение по ссылке.
+     *
+     * @param image ссылка на изображение
+     * @return изображение
+     */
+    @Nonnull
+    default DetachedImage getImageByLink(String image) {
         throw new UnsupportedOperationException();
     }
 }

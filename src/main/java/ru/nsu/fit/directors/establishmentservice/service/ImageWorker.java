@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.nsu.fit.directors.establishmentservice.exception.ImageSavingException;
 
+import javax.annotation.Nullable;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -25,12 +26,6 @@ public class ImageWorker {
     private final static String IMAGE_PATH_PREFIX = SERVER_PATH + '/';
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-    /**
-     * Method that saves image of establishment.
-     *
-     * @param imageContent string content representation (Base64).
-     * @return filepath of image that will be saved in database.
-     */
     public String saveImage(String imageContent) {
         String databaseFilepath = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + ".jpg";
         String saveFilepath = IMAGE_PATH_PREFIX + databaseFilepath;
@@ -47,11 +42,6 @@ public class ImageWorker {
         }
     }
 
-    /**
-     * Compress existed image.
-     *
-     * @param filepath of image that we need to compress.
-     */
     public void compressImage(String filepath) {
         try {
             File input = new File(filepath);
@@ -83,13 +73,7 @@ public class ImageWorker {
 
     }
 
-    /**
-     * Load existing image and return content of this image.
-     *
-     * @param imageName name of file in images folder.
-     * @return Base64 encoded content of the image.
-     */
-
+    @Nullable
     public String loadImage(String imageName) {
         try {
             File inputFile = new File(IMAGE_PATH_PREFIX + imageName);
@@ -98,18 +82,12 @@ public class ImageWorker {
         } catch (Exception e) {
             logger.warn(e.getMessage());
             return null;
-            //throw new ImageLoadingException();
         }
     }
 
-    /**
-     * Load existing image from resources and return content of this image.
-     *
-     * @param imageName name of image in the resource folder.
-     * @return Base64 encoded content of the image.
-     */
+    @Nullable
     public String getImageFromResource(String imageName) {
-        try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream(SERVER_PATH + imageName)) {
+        try (InputStream stream = getClass().getClassLoader().getResourceAsStream(SERVER_PATH + imageName)) {
             if (stream != null) {
                 StringBuilder builder = new StringBuilder();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream));

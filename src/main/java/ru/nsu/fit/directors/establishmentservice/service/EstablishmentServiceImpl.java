@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -134,15 +133,15 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Nonnull
     @Override
-    public Long createEstablishment(Long ownerId, RequestEstablishmentDto dto, MultipartFile[] images) {
+    public Long createEstablishmentV2(Long ownerId, RequestEstablishmentDto dto) {
         checkEstablishmentExistence(dto);
-        Establishment establishment = establishmentMapper.toModel(dto);
+        Establishment establishment = establishmentMapper.toNewModel(dto);
         establishment.setOwnerId(ownerId);
-        return saveEstablishmentDataV2(establishment, dto, images);
+        return saveEstablishmentDataV2(establishment, dto);
     }
 
     @Nonnull
-    private Long saveEstablishmentDataV2(Establishment establishment, RequestEstablishmentDto dto, MultipartFile[] images) {
+    private Long saveEstablishmentDataV2(Establishment establishment, RequestEstablishmentDto dto) {
         Set<Tag> tags = tagMapper.toModelSet(dto.getTags());
         log.info("Tags were converted");
         establishment.setTags(tags);
@@ -151,7 +150,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         Set<RequestWorkingHoursDto> responseWorkingHoursDto = dto.getWorkingHours();
         workingHoursService.saveWorkingHours(responseWorkingHoursDto, savedEstablishment);
         log.info("Working hours was saved");
-        amazonImageServiceImpl.saveImages(images, savedEstablishment);
+        amazonImageServiceImpl.saveImagesV2(dto.getPhotosInput(), savedEstablishment);
         log.info("Images was saved.");
         log.info("Establishment save successfully");
         if (dto.getMap() != null) {
