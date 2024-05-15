@@ -15,8 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
+import ru.nsu.fit.directors.establishmentservice.exception.ImageUploadException;
+import ru.nsu.fit.directors.establishmentservice.model.DetachedImage;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import ru.nsu.fit.directors.establishmentservice.model.Photo;
+import ru.nsu.fit.directors.establishmentservice.repository.DetachedImageRepository;
 import ru.nsu.fit.directors.establishmentservice.repository.ImageRepository;
 
 @Slf4j
@@ -27,6 +30,7 @@ public class AmazonImageServiceImpl implements ImageService {
     private static final String BUCKET_NAME = "budle-image-bucket";
     private final AmazonS3 amazonClient;
     private final ImageRepository imageRepository;
+    private final DetachedImageRepository detachedImageRepository;
 
     public void save(String path, MultipartFile image) {
         try {
@@ -76,6 +80,31 @@ public class AmazonImageServiceImpl implements ImageService {
     public void deleteImages(List<String> images) {
         for (String image : images) {
             amazonClient.deleteObject(BUCKET_NAME, image);
+        }
+    }
+
+    @Nonnull
+    @Override
+    public String uploadImage(MultipartFile image) {
+        DetachedImage detachedImage = detachedImageRepository.save(new DetachedImage());
+        try {
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(image.getContentType());
+            objectMetadata.setContentLength(image.getSize());
+            amazonClient.putObject(
+                BUCKET_NAME,
+                detachedImage.getId().toString(),
+                image.getInputStream(),
+                objectMetadata
+            );
+            return getByKey(detachedImage.getId().toString());
+        } catch (IOException ex) {
+            log.error(
+                "Cannot save picture with path {} and name {}",
+                detachedImage.getId(),
+                image.getOriginalFilename()
+            );
+            throw new ImageUploadException();
         }
     }
 }
