@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.nsu.fit.directors.establishmentservice.configuration.UUIDGenerator;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
 import ru.nsu.fit.directors.establishmentservice.exception.BaseException;
 import ru.nsu.fit.directors.establishmentservice.exception.ImageUploadException;
@@ -30,18 +31,7 @@ public class AmazonImageServiceImpl implements ImageService {
     private final AmazonS3 amazonClient;
     private final ImageRepository imageRepository;
     private final DetachedImageRepository detachedImageRepository;
-
-    public void save(String path, MultipartFile image) {
-        try {
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType(image.getContentType());
-            objectMetadata.setContentLength(image.getSize());
-            amazonClient.putObject(BUCKET_NAME, path, image.getInputStream(), objectMetadata);
-        } catch (IOException exception) {
-            log.error("Cannot save picture with path {} and name {}", path, image.getOriginalFilename());
-        }
-
-    }
+    private final UUIDGenerator uuidGenerator;
 
     public void save(String path, String image) {
         amazonClient.putObject(BUCKET_NAME, path, image);
@@ -60,7 +50,7 @@ public class AmazonImageServiceImpl implements ImageService {
     @Override
     public void saveImages(Set<PhotoDto> photos, Establishment establishment) {
         for (PhotoDto photo : photos) {
-            String filePath = UUID.randomUUID().toString();
+            String filePath = uuidGenerator.generate().toString();
             Photo photoEntity = new Photo().setEstablishment(establishment).setFilepath(filePath);
             save(filePath, photo.getImage());
             imageRepository.save(photoEntity);
