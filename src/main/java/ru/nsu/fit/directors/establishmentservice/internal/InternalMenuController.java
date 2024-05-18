@@ -18,12 +18,12 @@ import ru.nsu.fit.directors.establishmentservice.service.MenuService;
 public class InternalMenuController {
     private final MenuService menuService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void add(@RequestBody RequestCategoryDto category) {
         menuService.createCategory(category);
     }
 
-    @PostMapping(value = "/product")
+    @PostMapping(value = "/product", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addProduct(@RequestBody RequestProductDto product) {
         menuService.createProduct(product);
     }

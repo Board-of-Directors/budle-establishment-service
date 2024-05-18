@@ -78,8 +78,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         log.info("Getting establishment by parameters {}", parameters);
         List<ResponseBasicEstablishmentInfo> results = establishmentRepository.findBy(
                 toExample(parameters),
-                query -> query.project(toProjection(BasicEstablishmentInfo.class))
-                    .page(toPageable(parameters))
+                query -> query.project(toProjection(BasicEstablishmentInfo.class)).page(toPageable(parameters))
             )
             .stream()
             .map(establishmentMapper::toBasic)
@@ -109,11 +108,10 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         ExampleMatcher matcher = ExampleMatcher.matching()
             .withIgnoreNullValues()
             .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-        Category categoryEnum = parameters.category() == null ? null : Category.getEnumByValue(parameters.category());
 
         return Example.of(
             new Establishment()
-                .setCategory(categoryEnum)
+                .setCategory(EnumUtils.findEnumByNullable(parameters.name(), Category.class))
                 .setHasMap(parameters.hasMap())
                 .setHasCardPayment(parameters.hasCardPayment())
                 .setName(parameters.name()),
