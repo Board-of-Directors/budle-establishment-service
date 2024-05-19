@@ -15,6 +15,7 @@ public enum CuisineCountry implements ParseableEnum {
     asian("Азиатская"),
     russian("Русская"),
     vietnamese("Вьетнамская"),
+    chinese("Китайская")
     ;
 
     private final String readableName;

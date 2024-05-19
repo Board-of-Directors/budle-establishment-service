@@ -1,6 +1,6 @@
 <dataset>
-    <establishment
-            id="1"
+    <establishments
+            id="100"
             name="Кухня По"
             description="Милый китайский ресторанчик в центре Москвы"
             address="г. Москва, улица Бронная д. 45"
@@ -8,8 +8,17 @@
             price="4000"
             has_map="false"
             has_card_payment="true"
+            image="image"
             category="restaurant"
             owner_id="10"
             cuisine_country="chinese"
+    />
+
+    <working_hours
+            id="10"
+            establishment_id="100"
+            start_time="12:00:00"
+            end_time="13:30:00"
+            day_of_week="Friday"
     />
 </dataset>

@@ -1,0 +1,25 @@
+{
+  "result": [
+    {
+      "dayName": "пт",
+      "monthName": "мая",
+      "dayNumber": "24",
+      "times": [
+        "12:00",
+        "12:30",
+        "13:00"
+      ]
+    },
+    {
+      "dayName": "пт",
+      "monthName": "мая",
+      "dayNumber": "31",
+      "times": [
+        "12:00",
+        "12:30",
+        "13:00"
+      ]
+    }
+  ],
+  "exception": null
+}

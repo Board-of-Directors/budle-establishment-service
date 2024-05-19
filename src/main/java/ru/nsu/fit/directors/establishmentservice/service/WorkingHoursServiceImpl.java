@@ -13,6 +13,7 @@ import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import ru.nsu.fit.directors.establishmentservice.model.WorkingHours;
 import ru.nsu.fit.directors.establishmentservice.repository.WorkingHoursRepository;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -35,6 +36,7 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
     private final ModelMapper mapper;
     private final WorkingHoursRepository workingHoursRepository;
     private final WorkingHoursMapper workingHoursMapper;
+    private final Clock clock;
 
     @Override
     public void saveWorkingHours(Set<RequestWorkingHoursDto> responseWorkingHoursDto, Establishment establishment) {
@@ -58,7 +60,7 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
     public List<ValidTimeDto> generateValidBookingHours(Establishment establishment) {
         List<ValidTimeDto> times = new ArrayList<>();
         Set<WorkingHours> workingHours = establishment.getWorkingHours();
-        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDate = LocalDate.now(clock);
         for (int dayNumber = 0; dayNumber < DAY_COUNT_GENERATED_FOR_BOOKING; dayNumber++) {
             LocalDate bookDate = currentDate.plusDays(dayNumber);
             ValidTimeDto currentDto = workingHoursMapper.convertFromDateAndTimeToValidTimeDto(bookDate);
