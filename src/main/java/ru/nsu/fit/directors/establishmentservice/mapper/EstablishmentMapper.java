@@ -10,9 +10,8 @@ import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedEs
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseShortEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.exception.ErrorWhileParsingEstablishmentMapException;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
-import ru.nsu.fit.directors.establishmentservice.service.AmazonImageServiceImpl;
 import ru.nsu.fit.directors.establishmentservice.service.EstablishmentFactory;
-import ru.nsu.fit.directors.establishmentservice.service.ImageWorker;
+import ru.nsu.fit.directors.establishmentservice.service.ImageService;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -28,9 +27,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class EstablishmentMapper {
     private final ModelMapper modelMapper;
-    private final ImageWorker imageWorker;
     private final EstablishmentFactory establishmentFactory;
-    private final AmazonImageServiceImpl amazonImageServiceImpl;
+    private final ImageService amazonImageServiceImpl;
     private final WorkingHoursConverter workingHoursConverter;
     private final TagConverter tagConverter;
     private final PhotoConverter photoConverter;
@@ -62,18 +60,6 @@ public class EstablishmentMapper {
 
         establishmentDto.setImage(amazonImageServiceImpl.getByKey(establishment.getImage()));
         return establishmentDto;
-    }
-
-    @Nonnull
-    public Establishment toModel(RequestEstablishmentDto dto) {
-        Establishment establishment = modelMapper.map(
-            dto,
-            establishmentFactory.getEstablishmentEntity(dto.getCategory())
-        );
-        establishment.setImage(imageWorker.saveImage(establishment.getImage()));
-        establishment.setWorkingHours(null);
-        establishment.setPhotos(null);
-        return establishment;
     }
 
     @Nonnull

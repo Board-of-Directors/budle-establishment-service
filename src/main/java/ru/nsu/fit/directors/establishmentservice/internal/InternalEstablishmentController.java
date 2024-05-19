@@ -31,14 +31,6 @@ public class InternalEstablishmentController {
         return establishmentService.getEstablishmentsByIds(ids);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Long createEstablishment(
-        @RequestParam Long ownerId,
-        @Valid @RequestBody RequestEstablishmentDto requestEstablishmentDto
-    ) {
-        return establishmentService.createEstablishment(ownerId, requestEstablishmentDto);
-    }
-
     @PostMapping(value = "/v2/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long createEstablishmentV2(
         @RequestParam Long ownerId,

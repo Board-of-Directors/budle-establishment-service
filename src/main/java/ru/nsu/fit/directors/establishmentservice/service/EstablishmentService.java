@@ -1,6 +1,7 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
 import jakarta.annotation.Nonnull;
+import org.springframework.data.domain.Pageable;
 import ru.nsu.fit.directors.establishmentservice.dto.EstablishmentListDto;
 import ru.nsu.fit.directors.establishmentservice.dto.ValidTimeDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestEstablishmentDto;
@@ -23,17 +24,7 @@ public interface EstablishmentService {
      * @return список заведений
      */
     @Nonnull
-    EstablishmentListDto getEstablishmentByParams(RequestGetEstablishmentParameters parameters);
-
-    /**
-     * Создать заведение.
-     *
-     * @param ownerId идентификатор создателя
-     * @param dto     данные заведения
-     * @return идентификатор созданного заведения
-     */
-    @Nonnull
-    Long createEstablishment(Long ownerId, RequestEstablishmentDto dto);
+    EstablishmentListDto getEstablishmentByParams(RequestGetEstablishmentParameters parameters, Pageable pageable);
 
     /**
      * Создать заведение.

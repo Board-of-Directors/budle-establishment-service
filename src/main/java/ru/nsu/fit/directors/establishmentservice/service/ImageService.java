@@ -1,64 +1,59 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.springframework.web.multipart.MultipartFile;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
 import ru.nsu.fit.directors.establishmentservice.model.DetachedImage;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import ru.nsu.fit.directors.establishmentservice.model.Photo;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
+@ParametersAreNonnullByDefault
 public interface ImageService {
     /**
-     * Сохранить фотографии для заведения.
+     * Получить путь до изображения по ключу.
      *
-     * @param establishment заведение
+     * @param relativePath ключ
+     * @return путь до изображения
      */
-    default void saveImagesV2(Set<PhotoDto> photos, Establishment establishment) {
-        throw new UnsupportedOperationException();
-    }
+    @Nonnull
+    String getByKey(String relativePath);
 
     /**
-     * Сохранить фотографии для заведения.
+     * Загрузить фотографию.
+     *
+     * @param image фотография
+     * @return путь до фотографии
+     */
+    @Nonnull
+    String uploadImage(MultipartFile image);
+
+    /**
+     * Получить фотографию по ссылке.
+     *
+     * @param image ссылка
+     * @return фотография
+     */
+    @Nonnull
+    DetachedImage getImageByLink(String image);
+
+    /**
+     * Получить фотографию по ссылке.
+     *
+     * @param link ссылка
+     * @return фотография
+     */
+    @Nonnull
+    Photo getByLink(String link);
+
+    /**
+     * Сохранить фотографии.
      *
      * @param photos        фотографии
      * @param establishment заведение
      */
     void saveImages(Set<PhotoDto> photos, Establishment establishment);
-
-    /**
-     * Удалить фотографии.
-     *
-     * @param images фотографии
-     */
-    void deleteImages(List<String> images);
-
-    /**
-     * Загрузить фотографию в хранилище.
-     *
-     * @return путь до изображенияя
-     */
-    @Nonnull
-    default String uploadImage(MultipartFile image) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Получить изображение по ссылке.
-     *
-     * @param image ссылка на изображение
-     * @return изображение
-     */
-    @Nonnull
-    default DetachedImage getImageByLink(String image) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Nonnull
-    default Photo getByLink(String link) {
-        throw new UnsupportedOperationException();
-    }
 }

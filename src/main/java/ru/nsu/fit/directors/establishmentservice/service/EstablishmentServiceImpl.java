@@ -8,20 +8,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import ru.nsu.fit.directors.establishmentservice.dto.EstablishmentListDto;
-import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
 import ru.nsu.fit.directors.establishmentservice.dto.ValidTimeDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestEstablishmentDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestGetEstablishmentParameters;
-import ru.nsu.fit.directors.establishmentservice.dto.request.RequestWorkingHoursDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.BasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedEstablishmentInfo;
@@ -36,7 +32,6 @@ import ru.nsu.fit.directors.establishmentservice.mapper.EstablishmentMapper;
 import ru.nsu.fit.directors.establishmentservice.mapper.TagConverter;
 import ru.nsu.fit.directors.establishmentservice.model.Category;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
-import ru.nsu.fit.directors.establishmentservice.model.Photo;
 import ru.nsu.fit.directors.establishmentservice.model.Spot;
 import ru.nsu.fit.directors.establishmentservice.repository.EstablishmentRepository;
 import ru.nsu.fit.directors.establishmentservice.utils.EnumUtils;
@@ -58,7 +53,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -66,19 +60,21 @@ import java.util.stream.Stream;
 public class EstablishmentServiceImpl implements EstablishmentService {
     private final EstablishmentRepository establishmentRepository;
     private final SpotService spotService;
-    private final ImageService amazonImageServiceImpl;
-    private final ImageService imageServiceImpl;
+    private final ImageService imageService;
     private final EstablishmentMapper establishmentMapper;
     private final WorkingHoursService workingHoursService;
     private final TagConverter tagConverter;
 
     @Nonnull
     @Override
-    public EstablishmentListDto getEstablishmentByParams(RequestGetEstablishmentParameters parameters) {
+    public EstablishmentListDto getEstablishmentByParams(
+        RequestGetEstablishmentParameters parameters,
+        Pageable pageable
+    ) {
         log.info("Getting establishment by parameters {}", parameters);
         List<ResponseBasicEstablishmentInfo> results = establishmentRepository.findBy(
                 toExample(parameters),
-                query -> query.project(toProjection(BasicEstablishmentInfo.class)).page(toPageable(parameters))
+                query -> query.project(toBasic()).page(pageable)
             )
             .stream()
             .map(establishmentMapper::toBasic)
@@ -87,17 +83,8 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Nonnull
-    private Pageable toPageable(RequestGetEstablishmentParameters parameters) {
-        return PageRequest.of(
-            parameters.offset(),
-            parameters.limit(),
-            Sort.by(parameters.sortValue())
-        );
-    }
-
-    @Nonnull
     @SuppressWarnings("unused")
-    private List<String> toProjection(Class<BasicEstablishmentInfo> type) {
+    private List<String> toBasic() {
         return Arrays.stream(BasicEstablishmentInfo.class.getDeclaredFields())
             .map(Field::getName)
             .toList();
@@ -122,15 +109,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Nonnull
     @Override
     @Transactional
-    public Long createEstablishment(Long ownerId, RequestEstablishmentDto dto) {
-        checkEstablishmentExistence(dto);
-        Establishment establishment = establishmentMapper.toModel(dto);
-        establishment.setOwnerId(ownerId);
-        return saveEstablishmentData(establishment, dto);
-    }
-
-    @Nonnull
-    @Override
     public Long createEstablishmentV2(Long ownerId, RequestEstablishmentDto dto) {
         checkEstablishmentExistence(dto);
         Establishment establishment = establishmentMapper.toNewModel(dto);
@@ -141,19 +119,11 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Nonnull
     private Long saveEstablishmentDataV2(Establishment establishment, RequestEstablishmentDto dto) {
         Set<Tag> tags = tagConverter.toModel(dto.getTags());
-        log.info("Tags were converted");
         establishment.setTags(tags);
         Establishment savedEstablishment = establishmentRepository.save(establishment);
-        log.info("Establishment was saved in db");
-        Set<RequestWorkingHoursDto> responseWorkingHoursDto = dto.getWorkingHours();
-        workingHoursService.saveWorkingHours(responseWorkingHoursDto, savedEstablishment);
-        log.info("Working hours was saved");
-        amazonImageServiceImpl.saveImagesV2(dto.getPhotosInput(), savedEstablishment);
-        log.info("Images was saved.");
-        log.info("Establishment save successfully");
-        if (dto.getMap() != null) {
-            addMap(establishment.getId(), dto.getMap());
-        }
+        workingHoursService.saveWorkingHours(dto.getWorkingHours(), savedEstablishment);
+        imageService.saveImages(dto.getPhotosInput(), savedEstablishment);
+        Optional.ofNullable(dto.getMap()).ifPresent(map -> addMap(establishment.getId(), map));
         return savedEstablishment.getId();
     }
 
@@ -216,7 +186,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Override
     public void addMap(Long establishmentId, String map) {
         try {
-            log.info("Creating map of establishment  " + establishmentId);
             Establishment establishment = getEstablishmentById(establishmentId);
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(map)));
@@ -226,7 +195,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             String mapPath = "./images/" + establishmentId + ".svg";
-            log.info("Map path was " + mapPath);
+            log.info("Map path was {}", mapPath);
             establishment.setMap(mapPath);
             establishment.setHasMap(true);
             establishmentRepository.save(establishment);
@@ -274,11 +243,10 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Transactional
     public void updateEstablishment(Long establishmentId, RequestEstablishmentDto establishmentDto) {
         Establishment originalEstablishment = getEstablishmentById(establishmentId);
-        Establishment establishment = establishmentMapper.toModel(establishmentDto);
+        Establishment establishment = establishmentMapper.toNewModel(establishmentDto);
         establishment.setId(establishmentId);
-        deleteEstablishmentPhotos(originalEstablishment);
         deleteEstablishmentHours(originalEstablishment);
-        saveEstablishmentData(establishment, establishmentDto);
+        saveEstablishmentDataV2(establishment, establishmentDto);
     }
 
     private void deleteEstablishmentHours(Establishment originalEstablishment) {
@@ -288,7 +256,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Override
     public void deleteEstablishment(Long establishmentId) {
         Establishment establishment = getEstablishmentById(establishmentId);
-        deleteEstablishmentPhotos(establishment);
         establishmentRepository.delete(establishment);
     }
 
@@ -296,15 +263,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Override
     public String getTagByName(String tagName) {
         return tagConverter.toResponse(EnumUtils.parseEnum(tagName, Tag.class)).getImage();
-    }
-
-    private void deleteEstablishmentPhotos(Establishment establishment) {
-        Stream<String> paths = Stream.empty();
-        if (!establishment.getPhotos().isEmpty()) {
-            paths = Stream.concat(paths, establishment.getPhotos().stream().map(Photo::getFilepath));
-        }
-        paths = Stream.concat(paths, Stream.of(establishment.getImage()));
-        imageServiceImpl.deleteImages(paths.toList());
     }
 
     @Nonnull
@@ -326,26 +284,5 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         if (establishmentRepository.existsByAddressAndName(address, name)) {
             throw new EstablishmentAlreadyExistsException(name, address);
         }
-    }
-
-    @Nonnull
-    private Long saveEstablishmentData(Establishment establishment, RequestEstablishmentDto dto) {
-        Set<Tag> tags = tagConverter.toModel(dto.getTags());
-        log.info("Tags were converted");
-        establishment.setTags(tags);
-        Establishment savedEstablishment = establishmentRepository.save(establishment);
-        log.info("Establishment was saved in db");
-        Set<RequestWorkingHoursDto> responseWorkingHoursDto = dto.getWorkingHours();
-        Set<PhotoDto> photos = dto.getPhotosInput();
-        workingHoursService.saveWorkingHours(responseWorkingHoursDto, savedEstablishment);
-        log.info("Working hours was saved");
-        imageServiceImpl.saveImages(photos, savedEstablishment);
-        amazonImageServiceImpl.saveImages(photos, savedEstablishment);
-        log.info("Images was saved.");
-        log.info("Establishment save successfully");
-        if (dto.getMap() != null) {
-            addMap(establishment.getId(), dto.getMap());
-        }
-        return savedEstablishment.getId();
     }
 }

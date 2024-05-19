@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestTagDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseTagDto;
 import ru.nsu.fit.directors.establishmentservice.enums.Tag;
-import ru.nsu.fit.directors.establishmentservice.service.AmazonImageServiceImpl;
+import ru.nsu.fit.directors.establishmentservice.service.ImageService;
 import ru.nsu.fit.directors.establishmentservice.utils.EnumUtils;
 
 @Component
 @RequiredArgsConstructor
 @ParametersAreNonnullByDefault
 public class TagConverter {
-    private final AmazonImageServiceImpl imageService;
+    private final ImageService imageService;
 
     @Nonnull
     public List<ResponseTagDto> toResponse(Collection<Tag> tags) {

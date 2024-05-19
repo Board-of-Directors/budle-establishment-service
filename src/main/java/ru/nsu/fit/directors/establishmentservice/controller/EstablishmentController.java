@@ -2,6 +2,8 @@ package ru.nsu.fit.directors.establishmentservice.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +29,11 @@ public class EstablishmentController {
     private final EstablishmentService establishmentService;
 
     @GetMapping(value = "all")
-    public EstablishmentListDto getEstablishments(@Valid RequestGetEstablishmentParameters parameters) {
-        return establishmentService.getEstablishmentByParams(parameters);
+    public EstablishmentListDto getEstablishments(
+        @Valid RequestGetEstablishmentParameters parameters,
+        @PageableDefault Pageable pageable
+    ) {
+        return establishmentService.getEstablishmentByParams(parameters, pageable);
     }
 
     @GetMapping

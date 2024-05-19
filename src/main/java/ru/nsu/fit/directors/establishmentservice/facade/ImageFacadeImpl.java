@@ -12,11 +12,11 @@ import ru.nsu.fit.directors.establishmentservice.service.ImageService;
 @RequiredArgsConstructor
 @ParametersAreNonnullByDefault
 public class ImageFacadeImpl implements ImageFacade {
-    private final ImageService amazonImageServiceImpl;
+    private final ImageService imageService;
 
     @Nonnull
     @Override
     public String uploadImage(MultipartFile image) {
-        return amazonImageServiceImpl.uploadImage(image);
+        return imageService.uploadImage(image);
     }
 }
