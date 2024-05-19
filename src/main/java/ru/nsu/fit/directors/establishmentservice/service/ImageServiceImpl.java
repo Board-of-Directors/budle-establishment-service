@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.nsu.fit.directors.establishmentservice.configuration.UUIDGenerator;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
 import ru.nsu.fit.directors.establishmentservice.exception.BaseException;
 import ru.nsu.fit.directors.establishmentservice.exception.ImageUploadException;
@@ -34,7 +33,6 @@ public class ImageServiceImpl implements ImageService {
     private final AmazonS3 amazonClient;
     private final ImageRepository imageRepository;
     private final DetachedImageRepository detachedImageRepository;
-    private final UUIDGenerator uuidGenerator;
 
     public void save(String path, String image) {
         amazonClient.putObject(BUCKET_NAME, path, image);
