@@ -44,6 +44,10 @@ public class AmazonImageServiceImpl implements ImageService {
 
     @Override
     public void saveImagesV2(Set<PhotoDto> photos, Establishment establishment) {
+        List<Photo> savedPhotos = photos.stream()
+            .map(photo -> getByLink(photo.getImage()).setEstablishment(establishment))
+            .toList();
+        imageRepository.saveAll(savedPhotos);
         log.info("Was saved {}", photos);
     }
 
@@ -95,6 +99,16 @@ public class AmazonImageServiceImpl implements ImageService {
         return detachedImageRepository.findById(extractImageId(image)).orElseThrow(
             () -> new BaseException("Изображение не найдено", "ImageNotFound")
         );
+    }
+
+    @Nonnull
+    @Override
+    public Photo getByLink(String link) {
+        DetachedImage detachedImage = detachedImageRepository.findById(extractImageId(image)).orElseThrow(
+            () -> new BaseException("Изображение не найдено", "ImageNotFound")
+        );
+        detachedImageRepository.delete(detachedImage);
+        return new Photo().setFilepath(detachedImage.getId().toString());
     }
 
     @Nonnull

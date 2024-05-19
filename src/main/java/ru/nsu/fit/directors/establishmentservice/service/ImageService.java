@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
 import ru.nsu.fit.directors.establishmentservice.model.DetachedImage;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
+import ru.nsu.fit.directors.establishmentservice.model.Photo;
 
 import java.util.List;
 import java.util.Set;
@@ -53,6 +54,11 @@ public interface ImageService {
      */
     @Nonnull
     default DetachedImage getImageByLink(String image) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nonnull
+    default Photo getByLink(String link) {
         throw new UnsupportedOperationException();
     }
 }
