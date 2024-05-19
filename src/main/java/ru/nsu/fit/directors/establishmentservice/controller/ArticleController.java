@@ -81,7 +81,7 @@ public class ArticleController extends ResponseEntityExceptionHandler implements
     ) {
         String message = getDefaultMessage(ex);
         BaseResponse<Object> response = new BaseResponse<>(message, NOT_VALID_EXCEPTION);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @Nullable
@@ -94,7 +94,7 @@ public class ArticleController extends ResponseEntityExceptionHandler implements
     ) {
         String message = ex.getMessage();
         BaseResponse<Object> response = new BaseResponse<>(message, NOT_VALID_EXCEPTION);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @NonNull
