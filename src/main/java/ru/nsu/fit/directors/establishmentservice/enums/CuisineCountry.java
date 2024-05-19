@@ -10,12 +10,17 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public enum CuisineCountry implements ParseableEnum {
-    european("Европейская"),
-    georgian("Грузинская"),
-    asian("Азиатская"),
-    russian("Русская"),
-    vietnamese("Вьетнамская"),
-    chinese("Китайская"),
+    EUROPEAN("Европейская"),
+    GEORGIAN("Грузинская"),
+    ASIAN("Азиатская"),
+    RUSSIAN("Русская"),
+    VIETNAMESE("Вьетнамская"),
+    CHINESE("Китайская"),
+    ITALIAN("Итальянская"),
+    INDIAN("Индийская"),
+    MEXICAN("Мексиканская"),
+    FRENCH("Французская"),
+    TURKISH("Турецкая"),
     ;
 
     private final String readableName;
