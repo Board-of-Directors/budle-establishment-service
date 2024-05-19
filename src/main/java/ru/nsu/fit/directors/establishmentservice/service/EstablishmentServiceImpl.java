@@ -111,7 +111,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
         return Example.of(
             new Establishment()
-                .setCategory(EnumUtils.findEnumByNullable(parameters.name(), Category.class))
+                .setCategory(EnumUtils.findEnumByNullable(parameters.category(), Category.class))
                 .setHasMap(parameters.hasMap())
                 .setHasCardPayment(parameters.hasCardPayment())
                 .setName(parameters.name()),

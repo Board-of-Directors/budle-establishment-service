@@ -1,0 +1,15 @@
+<dataset>
+    <establishment
+            id="1"
+            name="Кухня По"
+            description="Милый китайский ресторанчик в центре Москвы"
+            address="г. Москва, улица Бронная д. 45"
+            rating="4.5"
+            price="4000"
+            has_map="false"
+            has_card_payment="true"
+            category="restaurant"
+            owner_id="10"
+            cuisine_country="chinese"
+    />
+</dataset>
