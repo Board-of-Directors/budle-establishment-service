@@ -28,8 +28,18 @@ class EstablishmentCategoryTest extends EstablishmentServiceApplicationTests {
 
     @Test
     @DisplayName("Получение валидного времени бронирования заведения")
-    void getEstablishment() throws Exception {
+    void getEstablishmentValidTime() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/establishment/time?establishmentId=100"))
             .andExpect(responseFromPath("http/response/establishment/valid_time.json"));
     }
+
+
+    /*@Test
+    @DisplayName("Получение валидного времени бронирования заведения")
+    void getEstablishmentValidTimeV2() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/establishment/internal/time?establishmentId=100"))
+            .andExpect(responseFromPath("http/response/establishment/valid_time_internal.json"));
+    }
+
+     */
 }

@@ -1,22 +1,20 @@
 {
   "result": [
     {
-      "name": "WI-FI"
+      "name": "Около окна",
+      "image": "https://storage.yandexcloud.net/budle-image-bucket/sun.svg"
     },
     {
-      "name": "Тихое место"
+      "name": "Тихое место",
+      "image": "https://storage.yandexcloud.net/budle-image-bucket/headphones.svg"
     },
     {
-      "name": "Розетки"
+      "name": "Розетки",
+      "image": "https://storage.yandexcloud.net/budle-image-bucket/zap.svg"
     },
     {
-      "name": "Телевизоры"
-    },
-    {
-      "name": "Кухня"
-    },
-    {
-      "name": "Танцпол"
+      "name": "Телевизоры",
+      "image": "https://storage.yandexcloud.net/budle-image-bucket/tv.svg"
     }
   ],
   "exception": null

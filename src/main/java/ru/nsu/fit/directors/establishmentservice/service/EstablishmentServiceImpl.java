@@ -33,7 +33,7 @@ import ru.nsu.fit.directors.establishmentservice.exception.ErrorWhileParsingEsta
 import ru.nsu.fit.directors.establishmentservice.exception.EstablishmentAlreadyExistsException;
 import ru.nsu.fit.directors.establishmentservice.exception.EstablishmentNotFoundException;
 import ru.nsu.fit.directors.establishmentservice.mapper.EstablishmentMapper;
-import ru.nsu.fit.directors.establishmentservice.mapper.TagMapper;
+import ru.nsu.fit.directors.establishmentservice.mapper.TagConverter;
 import ru.nsu.fit.directors.establishmentservice.model.Category;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import ru.nsu.fit.directors.establishmentservice.model.Photo;
@@ -70,7 +70,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     private final ImageService imageServiceImpl;
     private final EstablishmentMapper establishmentMapper;
     private final WorkingHoursService workingHoursService;
-    private final TagMapper tagMapper;
+    private final TagConverter tagConverter;
 
     @Nonnull
     @Override
@@ -140,7 +140,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Nonnull
     private Long saveEstablishmentDataV2(Establishment establishment, RequestEstablishmentDto dto) {
-        Set<Tag> tags = tagMapper.toModelSet(dto.getTags());
+        Set<Tag> tags = tagConverter.toModel(dto.getTags());
         log.info("Tags were converted");
         establishment.setTags(tags);
         Establishment savedEstablishment = establishmentRepository.save(establishment);
@@ -166,7 +166,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Nonnull
     @Override
     public List<ResponseTagDto> getTags() {
-        return tagMapper.toDtoList(Tag.values());
+        return tagConverter.toResponse(Tag.values());
     }
 
     @Nonnull
@@ -209,7 +209,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Override
     public List<ResponseTagDto> getSpotTags(Long establishmentId) {
         Establishment establishment = getEstablishmentById(establishmentId);
-        return tagMapper.toDtoList(establishment.getTags());
+        return tagConverter.toResponse(establishment.getTags());
 
     }
 
@@ -295,7 +295,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Nonnull
     @Override
     public String getTagByName(String tagName) {
-        return tagMapper.modelToTagDto(EnumUtils.parseEnum(tagName, Tag.class)).getImage();
+        return tagConverter.toResponse(EnumUtils.parseEnum(tagName, Tag.class)).getImage();
     }
 
     private void deleteEstablishmentPhotos(Establishment establishment) {
@@ -330,7 +330,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Nonnull
     private Long saveEstablishmentData(Establishment establishment, RequestEstablishmentDto dto) {
-        Set<Tag> tags = tagMapper.toModelSet(dto.getTags());
+        Set<Tag> tags = tagConverter.toModel(dto.getTags());
         log.info("Tags were converted");
         establishment.setTags(tags);
         Establishment savedEstablishment = establishmentRepository.save(establishment);

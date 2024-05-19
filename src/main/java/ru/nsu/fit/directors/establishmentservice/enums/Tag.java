@@ -12,12 +12,10 @@ import java.util.stream.Collectors;
 @Getter
 @RequiredArgsConstructor
 public enum Tag implements ParseableEnum {
-    wifi("WI-FI", "/wifi.svg", "Около Wi-Fi"),
-    power("Розетки", "/zap.svg", "Около розетки"),
-    television("Телевизоры", "/tv.svg", "Около телевизора"),
-    quite("Тихое место", "/headphones.svg", "Тихое место"),
-    kitchen("Кухня", "/eye.svg", "Около кухни"),
-    dance("Танцпол", "/music.svg", "Около танцпола"),
+    wifi("Около окна", "sun.svg", "Около окна"),
+    power("Розетки", "zap.svg", "Около розетки"),
+    television("Телевизоры", "tv.svg", "Около телевизора"),
+    quite("Тихое место", "headphones.svg", "Тихое место"),
     ;
 
     private final String translate;

@@ -1,0 +1,35 @@
+{
+  "result": [
+    {
+      "hour": "12",
+      "minute": "30",
+      "seconds": "00"
+    },
+    {
+      "hour": "12",
+      "minute": "30",
+      "seconds": "00"
+    },
+    {
+      "hour": "12",
+      "minute": "30",
+      "seconds": "00"
+    },
+    {
+      "hour": "12",
+      "minute": "30",
+      "seconds": "00"
+    },
+    {
+      "hour": "12",
+      "minute": "30",
+      "seconds": "00"
+    },
+    {
+      "hour": "12",
+      "minute": "30",
+      "seconds": "00"
+    }
+  ],
+  "exception": null
+}
