@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
 
 import java.util.List;
-import java.util.Set;
 
 @JsonSubTypes({
     @JsonSubTypes.Type(value = ResponseExtendedRestaurantInfo.class, name = "restaurant"),
