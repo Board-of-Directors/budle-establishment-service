@@ -17,9 +17,9 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ResponseExtendedEstablishmentInfo extends ResponseBasicEstablishmentInfo {
-    private Set<ResponseTagDto> tags;
+    private List<ResponseTagDto> tags;
     private String description;
-    private Set<PhotoDto> photos;
+    private List<PhotoDto> photos;
     private String map;
     private List<ResponseWorkingHoursDto> workingHours;
     private String address;
