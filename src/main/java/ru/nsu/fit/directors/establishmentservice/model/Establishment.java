@@ -49,8 +49,6 @@ public class Establishment {
 
     private Float rating;
 
-    private Integer price;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "category", insertable = false, updatable = false)
     private Category category;

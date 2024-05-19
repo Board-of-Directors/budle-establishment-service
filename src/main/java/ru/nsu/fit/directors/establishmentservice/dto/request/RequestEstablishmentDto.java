@@ -3,8 +3,6 @@ package ru.nsu.fit.directors.establishmentservice.dto.request;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -49,14 +47,6 @@ public class RequestEstablishmentDto {
     private String category;
     @NotNull(message = "Основное изображение не может быть не задано.")
     private String image;
-    @Min(value = 1, message = "Рейтинг не может быть меньше 1.")
-    @Max(value = 5, message = "Рейтинг не может быть больше 5.")
-    @NotNull(message = "Рейтинг не может быть не задан.")
-    private Float rating;
-    @Max(value = 10000, message = "Средний чек не может быть больше 10000")
-    @Min(value = 500, message = "Средний чек не может быть меньше 500")
-    @NotNull(message = "Информация о среднем чеке не может быть не задана.")
-    private Integer price;
     @NotNull(message = "Информация о рабочих часах заведения не может быть не задано.")
     @Size(min = 1, max = 7, message = "Дней работы не может быть меньше 1 и больше 7")
     @Valid
