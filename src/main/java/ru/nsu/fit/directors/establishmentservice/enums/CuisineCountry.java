@@ -15,11 +15,12 @@ public enum CuisineCountry implements ParseableEnum {
     asian("Азиатская"),
     russian("Русская"),
     vietnamese("Вьетнамская"),
-    chinese("Китайская")
+    chinese("Китайская"),
     ;
 
     private final String readableName;
 
+    @Nonnull
     public static List<String> getVariants() {
         return Arrays.stream(CuisineCountry.values())
             .map(CuisineCountry::getReadableName)

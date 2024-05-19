@@ -20,10 +20,12 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@ParametersAreNonnullByDefault
 public class EstablishmentMapper {
     private final ModelMapper modelMapper;
     private final ImageWorker imageWorker;
