@@ -1,7 +1,6 @@
 package ru.nsu.fit.directors.establishmentservice.internal;
 
 import jakarta.validation.Valid;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +39,7 @@ public class InternalEstablishmentController {
         return establishmentService.createEstablishment(ownerId, requestEstablishmentDto);
     }
 
-    @PostMapping(value = "/v2/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/v2/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long createEstablishmentV2(
         @RequestParam Long ownerId,
         @Valid @RequestBody RequestEstablishmentDto requestEstablishmentDto
