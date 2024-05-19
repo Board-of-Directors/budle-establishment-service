@@ -10,7 +10,7 @@
             image="image"
             category="restaurant"
             owner_id="10"
-            cuisine_country="chinese"
+            cuisine_country="CHINESE"
     />
 
     <working_hours
