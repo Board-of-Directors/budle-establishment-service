@@ -104,7 +104,7 @@ public class AmazonImageServiceImpl implements ImageService {
     @Nonnull
     @Override
     public Photo getByLink(String link) {
-        DetachedImage detachedImage = detachedImageRepository.findById(extractImageId(image)).orElseThrow(
+        DetachedImage detachedImage = detachedImageRepository.findById(extractImageId(link)).orElseThrow(
             () -> new BaseException("Изображение не найдено", "ImageNotFound")
         );
         detachedImageRepository.delete(detachedImage);
