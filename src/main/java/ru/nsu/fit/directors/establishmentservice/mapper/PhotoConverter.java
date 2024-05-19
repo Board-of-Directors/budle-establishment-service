@@ -10,19 +10,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.nsu.fit.directors.establishmentservice.dto.PhotoDto;
 import ru.nsu.fit.directors.establishmentservice.model.Photo;
-import ru.nsu.fit.directors.establishmentservice.service.ImageWorker;
+import ru.nsu.fit.directors.establishmentservice.service.AmazonImageServiceImpl;
 
 @Component
 @RequiredArgsConstructor
 @ParametersAreNonnullByDefault
 public class PhotoConverter {
-    private final ImageWorker imageWorker;
+    private final AmazonImageServiceImpl amazonImageService;
 
     @Nonnull
     public List<PhotoDto> toResponse(Collection<Photo> photos) {
         return photos
             .stream()
-            .map(x -> new PhotoDto(imageWorker.loadImage(x.getFilepath())))
+            .map(x -> new PhotoDto(amazonImageService.getByKey(x.getFilepath())))
             .toList();
     }
 }

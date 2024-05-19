@@ -44,7 +44,7 @@ public class EstablishmentMapper {
         responseEstablishmentInfo.setWorkingHours(workingHoursConverter.toResponse(establishment.getWorkingHours()));
         responseEstablishmentInfo.setTags(tagConverter.toResponse(establishment.getTags()));
         responseEstablishmentInfo.setPhotos(photoConverter.toResponse(establishment.getPhotos()));
-        responseEstablishmentInfo.setImage(imageWorker.loadImage(establishment.getImage()));
+        responseEstablishmentInfo.setImage(amazonImageServiceImpl.getByKey(establishment.getImage()));
         responseEstablishmentInfo.setMap(getMap(establishment));
         return responseEstablishmentInfo;
 
