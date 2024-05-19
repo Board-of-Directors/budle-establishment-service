@@ -1,6 +1,8 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
+import ru.nsu.fit.directors.establishmentservice.dto.response.BasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicBarbershopInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicGameClubInfo;
@@ -22,70 +24,44 @@ import ru.nsu.fit.directors.establishmentservice.model.Restaurant;
 
 import java.util.Map;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @Component
+@ParametersAreNonnullByDefault
 public class EstablishmentFactory {
-    private final Map<String, Establishment> entityFactory;
-    private final Map<String, Map<String, ? extends ResponseShortEstablishmentInfo>> factoryOfDtoFactories;
-
-    public EstablishmentFactory() {
-        entityFactory = getEntityFactory();
-        Map<String, ResponseBasicEstablishmentInfo> basicFactory = getBasicDtoFactory();
-        Map<String, ResponseExtendedEstablishmentInfo> extendedFactory = getExtendedDtoFactory();
-        factoryOfDtoFactories = Map.of("basic", basicFactory, "extended", extendedFactory);
-    }
-
-    private Map<String, Establishment> getEntityFactory() {
-        return Map.of(
-            Category.hotel.getValue(), new Hotel(),
-            Category.restaurant.getValue(), new Restaurant(),
-            Category.game_club.getValue(), new GameClub(),
-            Category.barbershop.getValue(), new Barbershop()
+    private static final Map<Category, Class<? extends Establishment>> ENTITY_FACTORY = Map.ofEntries(
+        Map.entry(Category.restaurant, Restaurant.class),
+        Map.entry(Category.hotel, Hotel.class),
+        Map.entry(Category.game_club, GameClub.class),
+        Map.entry(Category.barbershop, Barbershop.class)
+    );
+    private static final Map<Category, Class<? extends ResponseBasicEstablishmentInfo>> BASIC_INFO_FACTORY =
+        Map.ofEntries(
+            Map.entry(Category.restaurant, ResponseBasicRestaurantInfo.class),
+            Map.entry(Category.hotel, ResponseBasicHotelInfo.class),
+            Map.entry(Category.game_club, ResponseBasicGameClubInfo.class),
+            Map.entry(Category.barbershop, ResponseBasicBarbershopInfo.class)
         );
-    }
-
-    private Map<String, ResponseBasicEstablishmentInfo> getBasicDtoFactory() {
-        return Map.of(
-            Category.hotel.name(), new ResponseBasicHotelInfo(),
-            Category.restaurant.name(), new ResponseBasicRestaurantInfo(),
-            Category.game_club.name(), new ResponseBasicGameClubInfo(),
-            Category.barbershop.name(), new ResponseBasicBarbershopInfo()
+    private static final Map<Category, Class<? extends ResponseExtendedEstablishmentInfo>> EXTENDED_INFO_FACTORY =
+        Map.ofEntries(
+            Map.entry(Category.restaurant, ResponseExtendedRestaurantInfo.class),
+            Map.entry(Category.hotel, ResponseExtendedHotelInfo.class),
+            Map.entry(Category.game_club, ResponseExtendedGameClubInfo.class),
+            Map.entry(Category.barbershop, ResponseExtendedBarbershopInfo.class)
         );
+
+    @Nonnull
+    public Class<? extends Establishment> getEstablishmentEntity(Category category) {
+        return ENTITY_FACTORY.get(category);
     }
 
-    private Map<String, ResponseExtendedEstablishmentInfo> getExtendedDtoFactory() {
-        return Map.of(
-            Category.hotel.name(), new ResponseExtendedHotelInfo(),
-            Category.restaurant.name(), new ResponseExtendedRestaurantInfo(),
-            Category.game_club.name(), new ResponseExtendedGameClubInfo(),
-            Category.barbershop.name(), new ResponseExtendedBarbershopInfo()
-        );
+    @Nonnull
+    public Class<? extends ResponseBasicEstablishmentInfo> getBasicInfo(Category category) {
+        return BASIC_INFO_FACTORY.get(category);
     }
 
-    /**
-     * Function that returned class of establishment by name of category.
-     *
-     * @param type of establishment
-     * @return class
-     */
-    public Class<? extends Establishment> getEstablishmentEntity(String type) {
-        Establishment establishment = entityFactory.get(type);
-        if (establishment == null) {
-            throw new IncorrectEstablishmentType();
-        }
-        return establishment.getClass();
-    }
-
-    /**
-     * Function that returned class of establishment dto by name of category.
-     *
-     * @param type of establishment
-     * @return class
-     */
-    public Class<? extends ResponseShortEstablishmentInfo> getEstablishmentDto(String className, String type) {
-        ResponseShortEstablishmentInfo establishmentInfo = factoryOfDtoFactories.get(type).get(className);
-        if (establishmentInfo == null) {
-            throw new IncorrectEstablishmentType();
-        }
-        return establishmentInfo.getClass();
+    @Nonnull
+    public Class<? extends ResponseExtendedEstablishmentInfo> getExtendedInfo(Category category) {
+        return EXTENDED_INFO_FACTORY.get(category);
     }
 }

@@ -27,7 +27,7 @@ public class MapperConfiguration {
     private final AbstractConverter<Category, String> convertCategory = new AbstractConverter<>() {
         @Override
         protected String convert(Category source) {
-            return source.getValue();
+            return source.getReadableName();
         }
     };
     private final AbstractConverter<String, Category> convertToCategory = new AbstractConverter<>() {

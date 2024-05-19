@@ -9,9 +9,11 @@ import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicEstab
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseShortEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.exception.ErrorWhileParsingEstablishmentMapException;
+import ru.nsu.fit.directors.establishmentservice.model.Category;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import ru.nsu.fit.directors.establishmentservice.service.EstablishmentFactory;
 import ru.nsu.fit.directors.establishmentservice.service.ImageService;
+import ru.nsu.fit.directors.establishmentservice.utils.EnumUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -35,8 +37,8 @@ public class EstablishmentMapper {
 
     @Nonnull
     public ResponseExtendedEstablishmentInfo toExtended(Establishment establishment) {
-        Class<? extends ResponseShortEstablishmentInfo> classOfDto = establishmentFactory
-            .getEstablishmentDto(establishment.getCategory().toString(), "extended");
+        Class<? extends ResponseShortEstablishmentInfo> classOfDto =
+            establishmentFactory.getExtendedInfo(establishment.getCategory());
 
         ResponseExtendedEstablishmentInfo responseEstablishmentInfo =
             (ResponseExtendedEstablishmentInfo) modelMapper.map(establishment, classOfDto);
@@ -52,8 +54,9 @@ public class EstablishmentMapper {
 
     @Nonnull
     public ResponseBasicEstablishmentInfo toBasic(Establishment establishment) {
-        Class<? extends ResponseShortEstablishmentInfo> classOfDto = establishmentFactory
-            .getEstablishmentDto(establishment.getCategory().toString(), "basic");
+        Class<? extends ResponseShortEstablishmentInfo> classOfDto = establishmentFactory.getBasicInfo(
+            establishment.getCategory()
+        );
 
         ResponseBasicEstablishmentInfo establishmentDto =
             (ResponseBasicEstablishmentInfo) modelMapper.map(establishment, classOfDto);
@@ -92,10 +95,8 @@ public class EstablishmentMapper {
 
     @Nonnull
     public Establishment toNewModel(RequestEstablishmentDto dto) {
-        Establishment establishment = modelMapper.map(
-            dto,
-            establishmentFactory.getEstablishmentEntity(dto.getCategory())
-        );
+        Category category = EnumUtils.parseEnum(dto.getCategory(), Category.class);
+        Establishment establishment = modelMapper.map(dto, establishmentFactory.getEstablishmentEntity(category));
         establishment.setImage(amazonImageServiceImpl.getImageByLink(dto.getImage()).getId().toString());
         establishment.setWorkingHours(null);
         establishment.setPhotos(null);

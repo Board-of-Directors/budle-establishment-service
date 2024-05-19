@@ -8,6 +8,5 @@ import lombok.Getter;
 @Getter
 @DiscriminatorValue(value = "game_club")
 public class GameClub extends Establishment {
-    Category category = Category.game_club;
-
+    private final Category category = Category.game_club;
 }

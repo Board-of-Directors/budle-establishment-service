@@ -30,6 +30,7 @@ public class WorkingHoursConverter {
 
     @Nonnull
     public ResponseWorkingHoursDto toResponse(WorkingHours workingHours) {
+
         ResponseWorkingHoursDto dto = modelMapper.map(workingHours, ResponseWorkingHoursDto.class);
         dto.setDayOfWeek(workingHours.getDayOfWeek().getTranslate());
         return dto;

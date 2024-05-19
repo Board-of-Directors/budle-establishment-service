@@ -130,7 +130,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Nonnull
     @Override
     public List<String> getCategories() {
-        return Arrays.stream(Category.values()).map(Category::getValue).toList();
+        return Arrays.stream(Category.values()).map(Category::getReadableName).toList();
     }
 
     @Nonnull
