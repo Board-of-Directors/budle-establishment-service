@@ -2,7 +2,6 @@ package ru.nsu.fit.directors.establishmentservice.service;
 
 import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
-import ru.nsu.fit.directors.establishmentservice.dto.response.BasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicBarbershopInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicEstablishmentInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseBasicGameClubInfo;
@@ -13,8 +12,6 @@ import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedEs
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedGameClubInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedHotelInfo;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseExtendedRestaurantInfo;
-import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseShortEstablishmentInfo;
-import ru.nsu.fit.directors.establishmentservice.exception.IncorrectEstablishmentType;
 import ru.nsu.fit.directors.establishmentservice.model.Barbershop;
 import ru.nsu.fit.directors.establishmentservice.model.Category;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
