@@ -70,7 +70,7 @@ public class Establishment {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "establishment", cascade = CascadeType.ALL)
     private Set<Photo> photos;
 
-    @OneToMany(mappedBy = "establishment")
+    @OneToMany(mappedBy = "establishment", cascade = CascadeType.ALL)
     private Set<Review> reviews;
 
     @ElementCollection(targetClass = Tag.class, fetch = FetchType.EAGER)
