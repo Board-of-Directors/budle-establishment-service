@@ -7,11 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestReviewDto;
+import ru.nsu.fit.directors.establishmentservice.dto.request.ReviewAnswerRequest;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseReviewDto;
 import ru.nsu.fit.directors.establishmentservice.facade.ReviewFacade;
 
@@ -24,6 +26,16 @@ public class InternalReviewController {
     @PostMapping
     public Long create(@RequestBody @Valid RequestReviewDto reviewDto) {
         return reviewFacade.createReview(reviewDto).getId();
+    }
+
+    @PostMapping(value = "/answer")
+    public void createAnswer(@RequestBody @Valid ReviewAnswerRequest reviewAnswerRequest) {
+        reviewFacade.createAnswer(reviewAnswerRequest);
+    }
+
+    @PutMapping(value = "/answer")
+    public void changeAnswer(@RequestBody @Valid ReviewAnswerRequest reviewAnswerRequest) {
+        reviewFacade.changeAnswer(reviewAnswerRequest);
     }
 
     @GetMapping

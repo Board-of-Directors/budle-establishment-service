@@ -3,6 +3,8 @@ package ru.nsu.fit.directors.establishmentservice.service;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.nsu.fit.directors.establishmentservice.enums.EntityType;
+import ru.nsu.fit.directors.establishmentservice.exception.EntityNotFoundException;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
 import ru.nsu.fit.directors.establishmentservice.model.Review;
 import ru.nsu.fit.directors.establishmentservice.repository.ReviewRepository;
@@ -30,5 +32,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> findByIds(List<Long> ids) {
         return reviewRepository.findAllById(ids);
+    }
+
+    @Nonnull
+    @Override
+    public Review getById(Long id) {
+        return reviewRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(EntityType.REVIEW, id));
     }
 }

@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestReviewDto;
+import ru.nsu.fit.directors.establishmentservice.dto.request.ReviewAnswerRequest;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseReviewDto;
 import ru.nsu.fit.directors.establishmentservice.mapper.ReviewMapper;
 import ru.nsu.fit.directors.establishmentservice.model.Establishment;
@@ -45,5 +46,19 @@ public class ReviewFacadeImpl implements ReviewFacade {
         return reviewService.findByIds(ids).stream()
             .map(reviewMapper::toDto)
             .toList();
+    }
+
+    @Override
+    public void createAnswer(ReviewAnswerRequest reviewAnswerRequest) {
+        Review review = reviewService.getById(reviewAnswerRequest.reviewId());
+        review.setAnswer(reviewAnswerRequest.answer());
+        reviewService.save(review);
+    }
+
+    @Override
+    public void changeAnswer(ReviewAnswerRequest reviewAnswerRequest) {
+        Review review = reviewService.getById(reviewAnswerRequest.reviewId());
+        review.setAnswer(reviewAnswerRequest.answer());
+        reviewService.save(review);
     }
 }

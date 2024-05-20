@@ -9,6 +9,7 @@ public record ResponseReviewDto(
     String username,
     String text,
     Integer score,
-    LocalDate date
+    LocalDate date,
+    String answer
 ) {
 }

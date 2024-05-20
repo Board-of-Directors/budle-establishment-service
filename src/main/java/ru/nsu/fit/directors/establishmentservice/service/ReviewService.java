@@ -32,4 +32,12 @@ public interface ReviewService {
      */
     @Nonnull
     List<Review> findByIds(List<Long> ids);
+
+    /**
+     * Получить по идентификатору.
+     * @param id идентификатор отзыва
+     * @return отзыв
+     */
+    @Nonnull
+    Review getById(Long id);
 }

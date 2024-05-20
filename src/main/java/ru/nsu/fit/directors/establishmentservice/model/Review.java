@@ -29,4 +29,5 @@ public class Review {
     private String text;
     private String username;
     private Date date;
+    private String answer;
 }

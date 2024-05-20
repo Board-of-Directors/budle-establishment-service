@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.annotation.Nonnull;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestReviewDto;
+import ru.nsu.fit.directors.establishmentservice.dto.request.ReviewAnswerRequest;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseReviewDto;
 import ru.nsu.fit.directors.establishmentservice.model.Review;
 
@@ -34,4 +35,18 @@ public interface ReviewFacade {
      */
     @Nonnull
     List<ResponseReviewDto> findReviews(List<Long> ids);
+
+    /**
+     * Создать ответ на отзыв.
+     *
+     * @param reviewAnswerRequest данные ответа
+     */
+    void createAnswer(ReviewAnswerRequest reviewAnswerRequest);
+
+    /**
+     * Изменить ответ на отзыв.
+     *
+     * @param reviewAnswerRequest данные ответа
+     */
+    void changeAnswer(ReviewAnswerRequest reviewAnswerRequest);
 }
