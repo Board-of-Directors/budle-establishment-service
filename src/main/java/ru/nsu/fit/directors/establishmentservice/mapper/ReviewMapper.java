@@ -14,7 +14,8 @@ import ru.nsu.fit.directors.establishmentservice.model.Review;
 public class ReviewMapper {
     @Nonnull
     public Review toModel(RequestReviewDto reviewDto, Establishment establishment) {
-        return new Review().setText(reviewDto.text())
+        return new Review()
+            .setText(reviewDto.text())
             .setScore(reviewDto.score())
             .setEstablishment(establishment)
             .setUsername(reviewDto.username())
