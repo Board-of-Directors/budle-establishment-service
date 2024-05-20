@@ -2,6 +2,7 @@ package ru.nsu.fit.directors.establishmentservice.mapper;
 
 import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
+import ru.nsu.fit.directors.establishmentservice.dto.request.ChangeProductRequest;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestCategoryDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestProductDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseMenuCategoryDto;
@@ -12,6 +13,7 @@ import ru.nsu.fit.directors.establishmentservice.model.MenuCategory;
 import ru.nsu.fit.directors.establishmentservice.model.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MenuMapper {
@@ -58,7 +60,7 @@ public class MenuMapper {
             .setName(product.getName())
             .setDescription(product.getDescription())
             .setWeightG(product.getWeightG())
-            .setOnSale(product.isOnSale())
+            .setOnSale(product.getIsOnSale())
             .setPrice(product.getPrice())
             .setCategory(menuCategory);
     }
@@ -76,5 +78,14 @@ public class MenuMapper {
         return new ShortResponseMenuCategoryDto()
             .setId(category.getId())
             .setName(category.getName());
+    }
+
+    public void updateModel(Product product, ChangeProductRequest changeProductRequest) {
+        Optional.ofNullable(changeProductRequest.name()).ifPresent(product::setName);
+        Optional.ofNullable(changeProductRequest.description()).ifPresent(product::setDescription);
+        Optional.ofNullable(changeProductRequest.isOnSale()).ifPresent(product::setOnSale);
+        Optional.ofNullable(changeProductRequest.weightG()).ifPresent(product::setWeightG);
+        Optional.ofNullable(changeProductRequest.price()).ifPresent(product::setPrice);
+
     }
 }

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum EntityType {
     ESTABLISHMENT("Заведение"),
     REVIEW("Отзыв"),
+    PRODUCT("Продукт"),
+    CATEGORY("Категория"),
     ;
 
     private final String readableName;

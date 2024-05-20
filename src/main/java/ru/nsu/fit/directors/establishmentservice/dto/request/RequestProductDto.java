@@ -10,6 +10,6 @@ public class RequestProductDto {
     private String description;
     private Long establishmentId;
     private Long categoryId;
-    private boolean isOnSale;
+    private Boolean isOnSale;
 
 }

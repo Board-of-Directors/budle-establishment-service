@@ -1,6 +1,8 @@
 package ru.nsu.fit.directors.establishmentservice.service;
 
 import jakarta.annotation.Nonnull;
+import ru.nsu.fit.directors.establishmentservice.dto.request.ChangeCategoryRequest;
+import ru.nsu.fit.directors.establishmentservice.dto.request.ChangeProductRequest;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestCategoryDto;
 import ru.nsu.fit.directors.establishmentservice.dto.request.RequestProductDto;
 import ru.nsu.fit.directors.establishmentservice.dto.response.ResponseMenuCategoryDto;
@@ -54,4 +56,18 @@ public interface MenuService {
      */
     @Nonnull
     List<ShortResponseMenuCategoryDto> getShortMenu(long establishmentId);
+
+    /**
+     * Изменить продукт.
+     *
+     * @param changeProductRequest запрос редактирования продукта
+     */
+    void changeProduct(ChangeProductRequest changeProductRequest);
+
+    /**
+     * Изменить категорию.
+     *
+     * @param changeCategoryRequest запрос изменения категории
+     */
+    void changeCategory(ChangeCategoryRequest changeCategoryRequest);
 }
