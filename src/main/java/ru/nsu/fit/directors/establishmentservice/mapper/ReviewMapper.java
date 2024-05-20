@@ -28,6 +28,7 @@ public class ReviewMapper {
             .text(review.getText())
             .score(review.getScore())
             .date(review.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+            .answer(review.getAnswer())
             .build();
     }
 }
