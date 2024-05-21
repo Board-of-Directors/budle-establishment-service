@@ -22,6 +22,13 @@ public class EnumUtils {
     }
 
     @Nullable
+    public <E extends ParseableEnum> E parseEnumByNullable(@Nullable String maybeName, Class<E> enumClass) {
+        return Optional.ofNullable(maybeName)
+            .map(name -> parseEnum(name, enumClass))
+            .orElse(null);
+    }
+
+    @Nullable
     public <E extends Enum<E>> E findEnumByNullable(@Nullable String maybeName, Class<E> enumClass) {
         return Optional.ofNullable(maybeName)
             .map(name -> findEnum(name, enumClass))
