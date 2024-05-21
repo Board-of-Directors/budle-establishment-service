@@ -1,0 +1,35 @@
+<dataset>
+    <establishments
+            id="100"
+            name="Старая кляча"
+            description="Скорее всего скоро умрет"
+            address="Ул. бронная 256"
+            rating="4.5"
+            has_map="false"
+            has_card_payment="true"
+            image="image"
+            category="restaurant"
+            owner_id="10"
+            cuisine_country="CHINESE"
+    />
+
+    <working_hours
+            id="6"
+            establishment_id="100"
+            start_time="12:00:00"
+            end_time="22:00:00"
+            day_of_week="Monday"
+    />
+
+    <photo
+            id="1"
+            establishment_id="100"
+            filename="550e8400-e29b-41d4-a716-446655440002"
+    />
+
+    <photo
+            id="30"
+            establishment_id="100"
+            filename="550e8400-e29b-41d4-a716-446655440001"
+    />
+</dataset>

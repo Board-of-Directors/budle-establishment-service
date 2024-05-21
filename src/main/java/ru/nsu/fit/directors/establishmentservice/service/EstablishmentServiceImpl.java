@@ -250,6 +250,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     private void deleteEstablishmentHours(Establishment originalEstablishment) {
         workingHoursService.deleteHours(originalEstablishment.getWorkingHours());
+        originalEstablishment.getWorkingHours().clear();
     }
 
     @Override

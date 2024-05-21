@@ -70,6 +70,7 @@ public class ImageServiceImpl implements ImageService {
         List<Photo> newPhotos = actualPhotoUrls.stream()
             .filter(photoUrl -> !oldPhotoUrls.contains(photoUrl))
             .map(this::getByLink)
+            .map(photo -> photo.setEstablishment(originalEstablishment))
             .toList();
         imageRepository.saveAll(newPhotos);
     }
@@ -79,6 +80,7 @@ public class ImageServiceImpl implements ImageService {
             .filter(photo -> !actualPhotoUrls.contains(getByKey(photo.getFilepath())))
             .toList();
         imageRepository.deleteAll(photosToDelete);
+        photosToDelete.forEach(establishment.getPhotos()::remove);
     }
 
     @Nonnull

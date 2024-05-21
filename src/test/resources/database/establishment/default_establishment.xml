@@ -13,6 +13,18 @@
             cuisine_country="CHINESE"
     />
 
+    <photo
+            id="20"
+            establishment_id="100"
+            filename="550e8400-e29b-41d4-a716-446655440000"
+    />
+
+    <photo
+            id="30"
+            establishment_id="100"
+            filename="550e8400-e29b-41d4-a716-446655440001"
+    />
+
     <working_hours
             id="10"
             establishment_id="100"

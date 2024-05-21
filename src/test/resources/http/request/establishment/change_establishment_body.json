@@ -2,6 +2,19 @@
   "name": "Старая кляча",
   "description": "Скорее всего скоро умрет",
   "address": "Ул. бронная 256",
+  "image": "https://storage.yandexcloud.net/budle-image-bucket/550e8400-e29b-41d4-a716-446655449999",
+  "category": "Рестораны",
+  "cuisineCountry": "Европейская",
+  "workingHours": [
+    {
+      "days": [
+        "Пн"
+      ],
+      "startTime": "12:00",
+      "endTime": "22:00"
+    }
+  ],
+  "tags": [],
   "photosInput": [
     {
       "image": "https://storage.yandexcloud.net/budle-image-bucket/550e8400-e29b-41d4-a716-446655440001"
@@ -10,5 +23,4 @@
       "image": "https://storage.yandexcloud.net/budle-image-bucket/550e8400-e29b-41d4-a716-446655440002"
     }
   ]
-
 }

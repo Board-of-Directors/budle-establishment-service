@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
@@ -27,12 +28,14 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.JsonNode;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import ru.nsu.fit.directors.establishmentservice.config.DBUnitConfig;
 import ru.nsu.fit.directors.establishmentservice.config.TestableClock;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @SpringBootTest
 @FlywayTest
+@Import(DBUnitConfig.class)
 @TestExecutionListeners({
     OptimizedFlywayTestExecutionListener.class,
     DependencyInjectionTestExecutionListener.class,
@@ -73,6 +76,14 @@ class EstablishmentServiceApplicationTests {
         JsonNode node = objectMapper.readTree(input);
         String text = objectMapper.writeValueAsString(node);
         return content().json(text);
+    }
+
+    @Nonnull
+    protected static MockHttpServletRequestBuilder putJsonBody(String path, String bodyPath) throws IOException {
+        InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(bodyPath);
+        JsonNode node = objectMapper.readTree(input);
+        String text = objectMapper.writeValueAsString(node);
+        return MockMvcRequestBuilders.put(path).contentType(MediaType.APPLICATION_JSON).content(text);
     }
 
 }
