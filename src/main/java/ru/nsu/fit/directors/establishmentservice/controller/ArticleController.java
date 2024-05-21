@@ -40,12 +40,6 @@ public class ArticleController extends ResponseEntityExceptionHandler implements
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SecurityException.class)
-    public ResponseEntity<BaseResponse<String>> handleException(SecurityException exception) {
-        BaseResponse<String> response = new BaseResponse<>("Пользователь не вошел в аккаунт", "SecurityException");
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-    }
-
     @Override
     public boolean supports(
         @NonNull MethodParameter returnType,

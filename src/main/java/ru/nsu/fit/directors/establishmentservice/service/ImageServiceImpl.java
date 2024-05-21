@@ -50,7 +50,6 @@ public class ImageServiceImpl implements ImageService {
             .map(photo -> getByLink(photo.getImage()).setEstablishment(establishment))
             .toList();
         imageRepository.saveAll(savedPhotos);
-        log.info("Was saved {}", photos);
     }
 
     @Override

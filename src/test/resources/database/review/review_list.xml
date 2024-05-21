@@ -1,0 +1,21 @@
+<dataset>
+    <review
+            id="10"
+            establishment_id="100"
+            score="5"
+            text="Отличное заведение!"
+            username="Петров"
+            date="2024-02-12"
+            answer="Спасибо за отзыв! Помогаете нам расти и становиться лучше!"
+    />
+
+    <review
+            id="20"
+            establishment_id="100"
+            score="2"
+            text="Это отвратительно!"
+            username="Лера"
+            date="2024-03-12"
+            answer="Мы вас ненавидим!"
+    />
+</dataset>

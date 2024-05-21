@@ -30,25 +30,18 @@ public class SpotServiceImpl implements SpotService {
 
     @Override
     public List<SpotDto> getSpotsByEstablishment(Long establishmentId) {
-        log.info("Getting spots by establishment");
-        log.info("EstablishmentID: " + establishmentId);
         Establishment establishment = establishmentRepository.findById(establishmentId).orElseThrow();
         return spotMapper.toDtoList(spotRepository.findByEstablishment(establishment));
     }
 
     @Override
     public SpotDto getSpotById(Long spotId) {
-        log.info("Getting spot by id");
-        log.info("SpotID: " + spotId);
         return spotMapper.modelToDto(spotRepository.findById(spotId)
             .orElseThrow(() -> new SpotNotFoundException(spotId)));
     }
 
     @Override
     public void createSpot(Long localId, Long establishmentId) {
-        log.info("Saving new spot");
-        log.info("LocalID: " + localId);
-        log.info("EstablishmentID: " + establishmentId);
         spotRepository.save(
             new Spot().setLocalId(localId).setEstablishment(establishmentRepository.getReferenceById(establishmentId))
         );
@@ -64,7 +57,6 @@ public class SpotServiceImpl implements SpotService {
 
     @Override
     public TimelineDto getSpotTimeline(Long localId, Long establishmentId) {
-        log.info("Getting spot timeline");
         Establishment establishment = establishmentRepository.findById(establishmentId)
             .orElseThrow(() -> new EstablishmentNotFoundException(establishmentId));
 
