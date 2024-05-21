@@ -56,4 +56,12 @@ public interface ImageService {
      * @param establishment заведение
      */
     void saveImages(Set<PhotoDto> photos, Establishment establishment);
+
+    /**
+     * Обновить изображения.
+     *
+     * @param photosInput           актуальные изображения
+     * @param originalEstablishment заведение
+     */
+    void updateImages(Set<PhotoDto> photosInput, Establishment originalEstablishment);
 }

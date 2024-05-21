@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -50,6 +51,34 @@ public class ImageServiceImpl implements ImageService {
             .toList();
         imageRepository.saveAll(savedPhotos);
         log.info("Was saved {}", photos);
+    }
+
+    @Override
+    public void updateImages(Set<PhotoDto> photosInput, Establishment originalEstablishment) {
+        Set<String> actualPhotoUrls = photosInput.stream()
+            .map(PhotoDto::getImage)
+            .collect(Collectors.toSet());
+        deleteAbsent(actualPhotoUrls, originalEstablishment);
+        appendImages(actualPhotoUrls, originalEstablishment);
+    }
+
+    private void appendImages(Set<String> actualPhotoUrls, Establishment originalEstablishment) {
+        Set<String> oldPhotoUrls = originalEstablishment.getPhotos().stream()
+            .map(Photo::getFilepath)
+            .map(this::getByKey)
+            .collect(Collectors.toSet());
+        List<Photo> newPhotos = actualPhotoUrls.stream()
+            .filter(photoUrl -> !oldPhotoUrls.contains(photoUrl))
+            .map(this::getByLink)
+            .toList();
+        imageRepository.saveAll(newPhotos);
+    }
+
+    private void deleteAbsent(Set<String> actualPhotoUrls, Establishment establishment) {
+        List<Photo> photosToDelete = establishment.getPhotos().stream()
+            .filter(photo -> !actualPhotoUrls.contains(getByKey(photo.getFilepath())))
+            .toList();
+        imageRepository.deleteAll(photosToDelete);
     }
 
     @Nonnull

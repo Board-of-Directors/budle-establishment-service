@@ -113,11 +113,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         checkEstablishmentExistence(dto);
         Establishment establishment = establishmentMapper.toNewModel(dto);
         establishment.setOwnerId(ownerId);
-        return saveEstablishmentDataV2(establishment, dto);
-    }
-
-    @Nonnull
-    private Long saveEstablishmentDataV2(Establishment establishment, RequestEstablishmentDto dto) {
         Set<Tag> tags = tagConverter.toModel(dto.getTags());
         establishment.setTags(tags);
         Establishment savedEstablishment = establishmentRepository.save(establishment);
@@ -126,6 +121,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         Optional.ofNullable(dto.getMap()).ifPresent(map -> addMap(establishment.getId(), map));
         return savedEstablishment.getId();
     }
+
 
     @Nonnull
     @Override
@@ -243,10 +239,13 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Transactional
     public void updateEstablishment(Long establishmentId, RequestEstablishmentDto establishmentDto) {
         Establishment originalEstablishment = getEstablishmentById(establishmentId);
-        Establishment establishment = establishmentMapper.toNewModel(establishmentDto);
-        establishment.setId(establishmentId);
+        Establishment establishment = establishmentMapper.updateModel(originalEstablishment, establishmentDto);
         deleteEstablishmentHours(originalEstablishment);
-        saveEstablishmentDataV2(establishment, establishmentDto);
+        workingHoursService.saveWorkingHours(establishmentDto.getWorkingHours(), originalEstablishment);
+        Set<Tag> tags = tagConverter.toModel(establishmentDto.getTags());
+        establishment.setTags(tags);
+        imageService.updateImages(establishmentDto.getPhotosInput(), originalEstablishment);
+        Optional.ofNullable(establishmentDto.getMap()).ifPresent(map -> addMap(establishment.getId(), map));
     }
 
     private void deleteEstablishmentHours(Establishment originalEstablishment) {

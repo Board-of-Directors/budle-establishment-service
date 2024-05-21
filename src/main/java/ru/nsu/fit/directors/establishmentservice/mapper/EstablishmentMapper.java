@@ -18,6 +18,7 @@ import ru.nsu.fit.directors.establishmentservice.utils.EnumUtils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -101,5 +102,13 @@ public class EstablishmentMapper {
         establishment.setWorkingHours(null);
         establishment.setPhotos(null);
         return establishment;
+    }
+
+    @Nonnull
+    public Establishment updateModel(Establishment originalEstablishment, RequestEstablishmentDto establishmentDto) {
+        Optional.ofNullable(establishmentDto.getName()).ifPresent(originalEstablishment::setName);
+        Optional.ofNullable(establishmentDto.getDescription()).ifPresent(originalEstablishment::setDescription);
+        Optional.ofNullable(establishmentDto.getAddress()).ifPresent(originalEstablishment::setAddress);
+        return originalEstablishment;
     }
 }
