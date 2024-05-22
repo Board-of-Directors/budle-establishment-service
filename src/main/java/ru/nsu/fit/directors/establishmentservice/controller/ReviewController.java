@@ -22,7 +22,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    public List<ResponseReviewDto> get(@RequestParam Long reviewId){
+    public ResponseReviewDto get(@RequestParam Long reviewId){
         return reviewFacade.getById(reviewId);
     }
 }
