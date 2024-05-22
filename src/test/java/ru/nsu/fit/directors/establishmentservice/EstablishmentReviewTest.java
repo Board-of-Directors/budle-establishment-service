@@ -15,7 +15,8 @@ class EstablishmentReviewTest extends EstablishmentServiceApplicationTests {
     @DisplayName("Получение отзывов")
     @DatabaseSetup("/database/review/review_list.xml")
     void getReviewsTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/establishment/review?establishmentId=100"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/establishment/review/all?establishmentId=100"))
+            .andDo(result -> System.out.println(result.getResponse().getContentAsString()))
             .andExpect(status().is2xxSuccessful())
             .andExpect(responseFromPath("http/response/review/review_list_response.json"));
     }
