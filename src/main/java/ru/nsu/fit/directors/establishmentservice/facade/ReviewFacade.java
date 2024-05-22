@@ -49,4 +49,12 @@ public interface ReviewFacade {
      * @param reviewAnswerRequest данные ответа
      */
     void changeAnswer(ReviewAnswerRequest reviewAnswerRequest);
+
+    /**
+     * Получить ревью по идентификатору.
+     * @param reviewId идентификатор ревью
+     * @return данные ревью
+     */
+    @Nonnull
+    ResponseReviewDto getById(Long reviewId);
 }

@@ -16,8 +16,13 @@ import ru.nsu.fit.directors.establishmentservice.facade.ReviewFacade;
 public class ReviewController {
     private final ReviewFacade reviewFacade;
 
-    @GetMapping
-    public List<ResponseReviewDto> get(@RequestParam Long establishmentId) {
+    @GetMapping(value = "/all")
+    public List<ResponseReviewDto> search(@RequestParam Long establishmentId) {
         return reviewFacade.findReviews(establishmentId);
+    }
+
+    @GetMapping
+    public List<ResponseReviewDto> get(@RequestParam Long reviewId){
+        return reviewFacade.getById(reviewId);
     }
 }

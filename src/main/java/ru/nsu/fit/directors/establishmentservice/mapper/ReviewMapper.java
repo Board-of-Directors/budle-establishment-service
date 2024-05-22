@@ -25,6 +25,7 @@ public class ReviewMapper {
     @Nonnull
     public ResponseReviewDto toDto(Review review) {
         return ResponseReviewDto.builder()
+            .id(review.getId())
             .username(review.getUsername())
             .text(review.getText())
             .score(review.getScore())

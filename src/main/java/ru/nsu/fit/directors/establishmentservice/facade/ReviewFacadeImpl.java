@@ -61,4 +61,10 @@ public class ReviewFacadeImpl implements ReviewFacade {
         review.setAnswer(reviewAnswerRequest.answer());
         reviewService.save(review);
     }
+
+    @Nonnull
+    @Override
+    public ResponseReviewDto getById(Long reviewId) {
+        return reviewMapper.toDto(reviewService.getById(reviewId));
+    }
 }
